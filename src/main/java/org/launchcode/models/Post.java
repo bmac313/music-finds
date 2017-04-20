@@ -5,14 +5,16 @@ public class Post {
     private String title;
     private String imgUrl;
     private String location;
+    private boolean itemPurchased;
     private String author;
 
     public Post () {}
 
-    public Post(String title, String imgUrl, String location, String author) {
+    public Post(String title, String imgUrl, String location, boolean itemPurchased, String author) {
         this.title = title;
         this.imgUrl = imgUrl;
         this.location = location;
+        this.itemPurchased = itemPurchased;
         this.author = author;
     }
 
@@ -40,6 +42,14 @@ public class Post {
         this.location = location;
     }
 
+    public boolean isItemPurchased() {
+        return itemPurchased;
+    }
+
+    public void setItemPurchased(boolean itemPurchased) {
+        this.itemPurchased = itemPurchased;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -47,4 +57,14 @@ public class Post {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    public String getPurchasedString() {
+
+        if (isItemPurchased()) {
+            return "The user bought this item.";
+        }
+
+        return "The user did not buy this item.";
+    }
+
 }
