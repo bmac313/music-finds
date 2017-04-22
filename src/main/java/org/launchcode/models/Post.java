@@ -1,20 +1,41 @@
 package org.launchcode.models;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity
 public class Post {
 
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @NotNull
+    @Size(min = 3, max = 30, message = "Post title must be between 3 and 30 characters.")
     private String title;
+
+    @NotNull
+    @Size(min = 1, message = "Please provide a link to your image.")
     private String imgUrl;
+
+    @NotNull
+    @Size(min = 1, message = "Please provide a location for your Find.")
     private String location;
-    private boolean itemPurchased;
+
+    @NotNull
+    @Size(min = 1, message = "Please provide a name.")
     private String author;
 
     public Post () {}
 
-    public Post(String title, String imgUrl, String location, boolean itemPurchased, String author) {
+    public Post(String title, String imgUrl, String location, String author) {
         this.title = title;
         this.imgUrl = imgUrl;
         this.location = location;
-        this.itemPurchased = itemPurchased;
         this.author = author;
     }
 
@@ -42,14 +63,6 @@ public class Post {
         this.location = location;
     }
 
-    public boolean isItemPurchased() {
-        return itemPurchased;
-    }
-
-    public void setItemPurchased(boolean itemPurchased) {
-        this.itemPurchased = itemPurchased;
-    }
-
     public String getAuthor() {
         return author;
     }
@@ -58,13 +71,7 @@ public class Post {
         this.author = author;
     }
 
-    public String getPurchasedString() {
-
-        if (isItemPurchased()) {
-            return "The user bought this item.";
-        }
-
-        return "The user did not buy this item.";
+    public int getId() {
+        return id;
     }
-
 }
