@@ -6,9 +6,11 @@
 <div class="container">
     <nav th:replace="fragments :: navigation-main"></nav>
 
+    <!-- TODO: fix issue with the header overlapping the navbar
+         TODO: resize images correctly -->
     <div class="container" th:each="post : ${posts}">
         <h2 th:text="${post.title}"></h2>
-        <img src="${post.imgUrl}" />
+        <img th:src="${post.imgUrl}" src="" class="img-fluid" />
         <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
     </div>
 
