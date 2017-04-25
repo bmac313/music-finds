@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: head"></head>
+
 <body>
 
-<div class="container">
-    <nav th:replace="fragments :: navigation-main"></nav>
+<div class="container page-body">
 
-    <!-- TODO: fix issue with the header overlapping the navbar
-         TODO: resize images correctly -->
-    <div class="container" th:each="post : ${posts}">
-        <h2 th:text="${post.title}"></h2>
-        <img th:src="${post.imgUrl}" src="" class="img-fluid" />
-        <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
-    </div>
+    <header>
+        <nav th:replace="fragments :: navigation-main"></nav>
+    </header>
+
+    <main class="container">
+        <article class="container post" th:each="post : ${posts}">
+            <h2 th:text="${post.title}"></h2>
+            <img th:src="${post.imgUrl}" src="" style="max-width:80%;" />
+            <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
+        </article>
+    </main>
 
 </div>
 
 </body>
+
 </html>
