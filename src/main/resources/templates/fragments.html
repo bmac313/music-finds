@@ -5,11 +5,12 @@
     <title th:text="${title}"></title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<nav th:fragment="navigation-main" class="navbar navbar-fixed-top">
+<nav th:fragment="navigation-main" class="navbar">
     <div class="container">
         <div class="navbar-header">
             <span class="navbar-brand">MusicFinds</span>
