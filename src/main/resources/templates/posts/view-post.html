@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<div class="container page-body">
+
+    <header>
+        <nav th:replace="fragments :: navigation-main"></nav>
+    </header>
+
+    <main class="container">
+        <article class="container post">
+            <h2 th:text="${post.title}"></h2>
+            <img th:src="${post.imgUrl}" src="" style="max-width:80%;" />
+            <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
+        </article>
+    </main>
+
+    <!-- TODO: Add comment submission form -->
+
+</div>
+
+</body>
+</html>
