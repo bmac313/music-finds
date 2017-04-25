@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+//TODO: Add Date/Time field
+
 @Entity
 public class Post {
 
@@ -15,7 +17,7 @@ public class Post {
     private int id;
 
     @NotNull
-    @Size(min = 3, max = 30, message = "Post title must be between 3 and 30 characters.")
+    @Size(min = 1, max = 100, message = "Post title must be between 1 and 100 characters.")
     private String title;
 
     @NotNull
