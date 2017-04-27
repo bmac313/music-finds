@@ -39,8 +39,9 @@ public class PostController {
 
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.POST)
     public String addCommentToPost(@Valid @ModelAttribute Comment comment,
+                                   Errors errors,
                                    @PathVariable(value = "id") int id,
-                                   Errors errors, Model model) {
+                                   Model model) {
 
         if (errors.hasErrors()) {
             Post post = postDao.findOne(id);
