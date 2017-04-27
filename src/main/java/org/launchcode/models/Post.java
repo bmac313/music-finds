@@ -1,11 +1,11 @@
 package org.launchcode.models;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO: add date & time field
 @Entity
@@ -30,6 +30,10 @@ public class Post {
     @NotNull
     @Size(min = 1, message = "Please provide a name.")
     private String author;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id")
+    private List<Comment> comments = new ArrayList<>();
 
     public Post () {}
 
@@ -76,4 +80,15 @@ public class Post {
         return id;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
 }
