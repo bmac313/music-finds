@@ -1,6 +1,7 @@
 package org.launchcode.controllers;
 
 import org.launchcode.models.Comment;
+import org.launchcode.models.Post;
 import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,12 @@ public class PostController {
     @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
     public String viewPost(@PathVariable(value = "id") int id, Model model) {
 
-        //TODO: Add post comments to the model (do this on the POST method as well)
+        Post post = postDao.findOne(id);
+
         model.addAttribute("title", "View Post - MusicFinds");
-        model.addAttribute("post", postDao.findOne(id));
+        model.addAttribute("post", post);
+        model.addAttribute(new Comment());
+        model.addAttribute("comments", post.getComments());
 
         return "posts/view-post";
     }
@@ -39,15 +43,24 @@ public class PostController {
                                    Errors errors, Model model) {
 
         if (errors.hasErrors()) {
+            Post post = postDao.findOne(id);
+
             model.addAttribute("title", "View Post - MusicFinds");
-            model.addAttribute("post", postDao.findOne(id));
+            model.addAttribute("post", post);
+            model.addAttribute(new Comment());
+            model.addAttribute("comments", post.getComments());
             return "posts/view-post";
         }
 
-        commentDao.save(comment);
+        Post post = postDao.findOne(id);
+        post.addComment(comment);
+
+        postDao.save(post);
 
         model.addAttribute("title", "View Post - MusicFinds");
-        model.addAttribute("post", postDao.findOne(id));
+        model.addAttribute("post", post);
+        model.addAttribute(new Comment());
+        model.addAttribute("comments", post.getComments());
 
         return "posts/view-post";
     }
