@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-//TODO: Add Date/Time field
-
+// TODO: add date & time field
 @Entity
 public class Post {
 
@@ -76,4 +75,5 @@ public class Post {
     public int getId() {
         return id;
     }
+
 }
