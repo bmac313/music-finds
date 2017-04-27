@@ -11,14 +11,37 @@
     </header>
 
     <main class="container">
+
         <article class="container post">
             <h2 th:text="${post.title}"></h2>
             <img th:src="${post.imgUrl}" src="" style="max-width:80%;" />
             <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
         </article>
-    </main>
 
-    <!-- TODO: Add comment submission form -->
+        <form th:object="${comment}" method="post">
+
+            <div class="form-group">
+                <label th:for="text">Comment</label>
+                <textarea th:field="*{text}"></textarea>
+                <span th:errors="*{text}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label th:for="author">Display Name</label>
+                <input th:field="*{author}" />
+                <span th:errors="*{author}" class="error"></span>
+            </div>
+
+            <input type="submit" />
+
+        </form>
+
+        <article class="container comment" th:each="comment : ${comments}">
+            <h6 th:text="${comment.author}"></h6>
+            <p th:text="${comment.text}"></p>
+        </article>
+
+    </main>
 
 </div>
 
