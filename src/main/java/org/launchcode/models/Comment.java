@@ -1,9 +1,25 @@
 package org.launchcode.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import javax.persistence.GeneratedValue;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity
 public class Comment {
 
-    //TODO: add date/time field
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @NotNull
+    @Size(min = 1, message = "The comment body cannot be empty.")
     private String text;
+
+    @NotNull
+    @Size(min = 1, message = "The author box cannot be empty.")
     private String author;
 
     public Comment() {}
