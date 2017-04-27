@@ -16,6 +16,7 @@
             <h2 th:text="${post.title}"></h2>
             <img th:src="${post.imgUrl}" src="" style="max-width:70%;" />
             <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
+            <span th:text="${post.timeStamp}"></span>
         </article>
 
         <form th:object="${comment}" method="post">

@@ -4,10 +4,11 @@ import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: add date & time field
 @Entity
 public class Post {
 
@@ -31,17 +32,27 @@ public class Post {
     @Size(min = 1, message = "Please provide a name.")
     private String author;
 
+    private final String timeStamp;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private List<Comment> comments = new ArrayList<>();
 
-    public Post () {}
+
+    public Post () {
+        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 
     public Post(String title, String imgUrl, String location, String author) {
+        this();
         this.title = title;
         this.imgUrl = imgUrl;
         this.location = location;
         this.author = author;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -76,8 +87,8 @@ public class Post {
         this.author = author;
     }
 
-    public int getId() {
-        return id;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
     public List<Comment> getComments() {

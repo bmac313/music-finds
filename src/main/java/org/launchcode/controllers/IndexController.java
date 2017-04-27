@@ -39,7 +39,7 @@ public class IndexController {
 
     @RequestMapping(value = "newpost", method = RequestMethod.POST)
     public String handleNewPostSubmission(@Valid @ModelAttribute Post postToAdd,
-                                          Errors errors, Model model) {
+                                               Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Share a Find - MusicFinds");

@@ -15,6 +15,7 @@
             <a th:href="'/posts/' + ${post.id}"><h2 th:text="${post.title}"></h2></a>
             <img th:src="${post.imgUrl}" src="" style="max-width:35%;" />
             <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
+            <span th:text="${post.timeStamp}"></span>
         </article>
     </main>
 
