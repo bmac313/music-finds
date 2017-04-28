@@ -28,7 +28,10 @@ public class Comment {
     private final String timeStamp;
 
     @ManyToOne
-    private Post post;              // This field describes which post the comment was made on
+    private Post post;               // This field describes which post the comment was made on
+
+    @ManyToOne
+    private Discussion discussion;   // This field describes which discussion the comment was made on
 
 
     public Comment() {
