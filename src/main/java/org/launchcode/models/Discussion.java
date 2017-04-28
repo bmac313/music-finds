@@ -9,29 +9,29 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-public class Post extends UserSubmission{
+public class Discussion extends UserSubmission {
 
     @NotNull
-    @Size(min = 1, message = "Please provide a link to your image.")
-    private String imgUrl;
+    @Size(min = 1, message = "The post body cannot be empty.")
+    private String postBody;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private List<Comment> comments;
 
-    public Post() {}
+    public Discussion() {}
 
-    public Post(String imgUrl) {
+    public Discussion(String postBody) {
         super();
-        this.imgUrl = imgUrl;
+        this.postBody = postBody;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getPostBody() {
+        return postBody;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setPostBody(String postBody) {
+        this.postBody = postBody;
     }
 
     public List<Comment> getComments() {
