@@ -46,7 +46,7 @@ public class PostController {
         if (errors.hasErrors()) {
             Post post = postDao.findOne(id);
 
-            model.addAttribute("title", "View Post - MusicFinds");
+            model.addAttribute("title", post.getTitle() + " - MusicFinds");
             model.addAttribute("post", post);
             model.addAttribute(new Comment());
             model.addAttribute("comments", post.getComments());
