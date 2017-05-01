@@ -5,6 +5,7 @@ import org.launchcode.models.Discussion;
 import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.DiscussionDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -29,7 +30,7 @@ public class DiscussionController {
     public String index(Model model) {
 
         model.addAttribute("title", "Discussions - MusicFinds");
-        model.addAttribute("discussions", discussionDao.findAll());
+        model.addAttribute("discussions", discussionDao.findAll(new Sort(Sort.Direction.DESC, "timeStamp")));
 
         return "discussions/index";
 
