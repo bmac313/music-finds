@@ -6,5 +6,56 @@
 </head>
 <body>
 
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<div class="container page-body">
+
+    <header>
+        <nav th:replace="fragments :: navigation-secondary"></nav>
+    </header>
+
+    <main class="container">
+
+        <article class="container post">
+            <a th:href="'/discussions/' + ${discussion.id}"><h2 th:text="${discussion.title}"></h2></a>
+            <p th:text="${discussion.postBody}"></p>
+            <p th:text="'Posted by ' + ${discussion.author}"></p>
+            <span th:text="${discussion.timeStamp}"></span>
+        </article>
+
+        <form th:object="${comment}" method="post">
+
+            <div class="form-group">
+                <label th:for="text">Comment</label>
+                <textarea th:field="*{text}"></textarea>
+                <span th:errors="*{text}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label th:for="author">Display Name</label>
+                <input th:field="*{author}" />
+                <span th:errors="*{author}" class="error"></span>
+            </div>
+
+            <input type="submit" />
+
+        </form>
+
+        <article class="container comment" th:each="comment : ${comments}">
+            <h6 th:text="${comment.author}"></h6>
+            <p th:text="${comment.text}"></p>
+        </article>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+
 </body>
 </html>
