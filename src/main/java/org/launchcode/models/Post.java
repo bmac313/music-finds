@@ -58,4 +58,5 @@ public class Post extends UserSubmission{
     public void addComment(Comment comment) {
         this.comments.add(comment);
     }
+
 }
