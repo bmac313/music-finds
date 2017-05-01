@@ -61,7 +61,7 @@ public class DiscussionController {
 
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "viewtopic/{id}", method = RequestMethod.GET)
     public String viewDiscussion(@PathVariable(value = "id") int id, Model model) {
 
         Discussion discussion = discussionDao.findOne(id);
@@ -73,7 +73,7 @@ public class DiscussionController {
         return "discussions/view-discussion";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "viewtopic/{id}", method = RequestMethod.POST)
     public String addCommentToDiscussion(@Valid @ModelAttribute Comment comment,
                                          Errors errors,
                                          @PathVariable(value = "id") int id,
