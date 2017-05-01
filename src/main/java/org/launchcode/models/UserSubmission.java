@@ -6,8 +6,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class UserSubmission {
@@ -21,10 +19,6 @@ public class UserSubmission {
     private String title;
 
     @NotNull
-    @Size(min = 1, message = "Please provide a location for your Find.")
-    private String location;
-
-    @NotNull
     @Size(min = 1, message = "Please provide a name.")
     private String author;
 
@@ -32,13 +26,12 @@ public class UserSubmission {
 
 
     public UserSubmission () {
-        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
     }
 
-    public UserSubmission(String title, String imgUrl, String location, String author) {
+    public UserSubmission(String title, String author) {
         this();
         this.title = title;
-        this.location = location;
         this.author = author;
     }
 
@@ -52,14 +45,6 @@ public class UserSubmission {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getAuthor() {

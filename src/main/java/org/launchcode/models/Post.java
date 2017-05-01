@@ -12,6 +12,10 @@ import java.util.List;
 public class Post extends UserSubmission{
 
     @NotNull
+    @Size(min = 1, message = "Please provide a location for your Find.")
+    private String location;
+
+    @NotNull
     @Size(min = 1, message = "Please provide a link to your image.")
     private String imgUrl;
 
@@ -21,8 +25,9 @@ public class Post extends UserSubmission{
 
     public Post() {}
 
-    public Post(String imgUrl) {
+    public Post(String location, String imgUrl) {
         super();
+        this.location = location;
         this.imgUrl = imgUrl;
     }
 
@@ -32,6 +37,14 @@ public class Post extends UserSubmission{
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public List<Comment> getComments() {
