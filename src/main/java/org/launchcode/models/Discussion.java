@@ -16,7 +16,7 @@ public class Discussion extends UserSubmission {
     private String postBody;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "discussion_id")
     private List<Comment> comments;
 
     public Discussion() {}
