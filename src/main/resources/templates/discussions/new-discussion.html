@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<div class="container page-body">
+
+    <header>
+        <nav th:replace="fragments :: navigation-secondary"></nav>
+    </header>
+
+    <main class="container">
+        <h1 th:text="${header}"></h1>
+        <p>Fields marked with an asterisk (*) are required.</p>
+        <form th:object="${discussion}" method="post">
+
+            <div class="form-group">
+                <label th:for="title">Post Title*</label>
+                <input th:field="*{title}" />
+                <span th:errors="*{title}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label th:for="postBody">Post Body*</label>
+                <textarea th:field="*{postBody}"></textarea>
+                <span th:errors="*{postBody}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label th:for="author">Username*</label>
+                <input th:field="*{author}" />
+                <span th:errors="*{author}" class="error"></span>
+            </div>
+
+            <input type="submit" value="Post" />
+
+        </form>
+
+    </main>
+
+</div>
+
+</body>
+</html>
