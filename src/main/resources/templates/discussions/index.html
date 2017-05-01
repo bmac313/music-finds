@@ -12,8 +12,7 @@
 
     <main class="container">
         <article class="container post" th:each="discussion : ${discussions}">
-            <a th:href="'/discussions/' + ${discussion.id}"><h2 th:text="${discussion.title}"></h2></a>
-            <p th:text="${discussion.postBody}"></p>
+            <a th:href="'/discussions/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
             <p th:text="'Posted by ' + ${discussion.author}"></p>
             <span th:text="${discussion.timeStamp}"></span>
         </article>
