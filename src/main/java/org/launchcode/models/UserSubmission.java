@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-public class UserSubmission {
+public abstract class UserSubmission {
 
     @Id
     @GeneratedValue
