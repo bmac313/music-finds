@@ -3,6 +3,7 @@ package org.launchcode.controllers;
 import org.launchcode.models.Post;
 import org.launchcode.models.data.PostDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,7 +22,7 @@ public class IndexController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
 
-        model.addAttribute("posts", postDao.findAll());
+        model.addAttribute("posts", postDao.findAll(new Sort(Sort.Direction.DESC, "timeStamp")));
         model.addAttribute("title", "Latest Finds - MusicFinds");
 
         return "index";
