@@ -79,8 +79,9 @@ public class PostController {
                                    @PathVariable(value = "id") int id,
                                    Model model) {
 
+        Post post = postDao.findOne(id);
+
         if (errors.hasErrors()) {
-            Post post = postDao.findOne(id);
 
             model.addAttribute("title", post.getTitle() + " - MusicFinds");
             model.addAttribute("post", post);
@@ -89,9 +90,7 @@ public class PostController {
             return "posts/view-post";
         }
 
-        Post post = postDao.findOne(id);
         post.addComment(comment);
-
         postDao.save(post);
 
         model.addAttribute("title", "View Post - MusicFinds");

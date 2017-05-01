@@ -80,8 +80,9 @@ public class DiscussionController {
                                          @PathVariable(value = "id") int id,
                                          Model model) {
 
+        Discussion discussion = discussionDao.findOne(id);
+
         if (errors.hasErrors()) {
-            Discussion discussion = discussionDao.findOne(id);
 
             model.addAttribute("title", discussion.getTitle() + " - MusicFinds");
             model.addAttribute("discussion", discussion);
@@ -89,8 +90,6 @@ public class DiscussionController {
             model.addAttribute("comments", discussion.getComments());
             return "discussions/view-discussion";
         }
-
-        Discussion discussion = discussionDao.findOne(id);
 
         discussion.addComment(comment);
         discussionDao.save(discussion);
