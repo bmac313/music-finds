@@ -7,12 +7,16 @@
 <div class="container page-body">
 
     <header>
-        <nav th:replace="fragments :: navigation-secondary"></nav>
+        <nav th:replace="fragments :: navigation-main"></nav>
     </header>
 
     <main class="container">
+
+        <a class="btn btn-primary" href="discussions/newtopic">Start a Discussion</a>
+
+        <p th:unless="${discussions} and ${discussions.size()}">There are currently no discussions. Click 'Start a Discussion' Above to add one!</p>
         <article class="container post" th:each="discussion : ${discussions}">
-            <a th:href="'/discussions/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
+            <a th:href="'/discussions/viewtopic/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
             <p th:text="'Posted by ' + ${discussion.author}"></p>
             <span th:text="${discussion.timeStamp}"></span>
         </article>
