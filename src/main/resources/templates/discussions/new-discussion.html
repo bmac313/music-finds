@@ -30,6 +30,9 @@
             <div class="form-group">
                 <label th:for="author">Username*</label>
                 <input th:field="*{author}" />
+                <a href="#" data-toggle="tooltip" title="Enter a name you would like to appear on your post.">
+                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                </a>
                 <span th:errors="*{author}" class="error"></span>
             </div>
 
