@@ -18,9 +18,10 @@ public class User {
     @Size(min = 1, message = "Username cannot be empty.")
     private String userName;
 
+    //TODO: Hash password instead of storing it in plain text
     @NotNull
     @Size(min = 1, message = "Password cannot be empty.")
-    private String passwordHash;
+    private String password;
 
     private List<Post> posts;
 
@@ -36,6 +37,14 @@ public class User {
         this.userName = userName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<Post> getPosts() {
         return posts;
     }
@@ -43,4 +52,5 @@ public class User {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
 }
