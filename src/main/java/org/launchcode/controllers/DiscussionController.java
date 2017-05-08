@@ -47,7 +47,7 @@ public class DiscussionController {
     }
 
     @RequestMapping(value = "newtopic", method = RequestMethod.POST)
-    public String processNewDiscussionForm(@Valid @ModelAttribute Discussion newDiscussion,
+    public String processNewDiscussionForm(@ModelAttribute @Valid Discussion newDiscussion,
                                            Errors errors, Model model) {
 
         if (errors.hasErrors()) {

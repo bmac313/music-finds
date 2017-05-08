@@ -74,7 +74,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "viewpost/{id}", method = RequestMethod.POST)
-    public String addCommentToPost(@Valid @ModelAttribute Comment comment,
+    public String addCommentToPost(@ModelAttribute @Valid Comment comment,
                                    Errors errors,
                                    @PathVariable(value = "id") int id,
                                    Model model) {
