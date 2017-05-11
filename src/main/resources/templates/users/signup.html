@@ -16,19 +16,19 @@
 
         <form th:object="${user}" method="post">
 
-            <div class="form-group">
-                <label th:for="username">Username</label>
-                <input th:field="*{username}" />
+            <div class="input-group">
+                <label th:for="username">Username*</label>
+                <input th:field="*{username}" class="form-control" />
                 <span th:errors="*{username}" class="error"></span>
             </div>
 
-            <div class="form-group">
-                <label th:for="password">Password</label>
-                <input th:field="*{password}" type="password" />
+            <div class="input-group">
+                <label th:for="password">Password*</label>
+                <input th:field="*{password}" type="password" class="form-control" />
                 <span th:errors="*{password}" class="error"></span>
             </div>
 
-            <input type="submit" value="Sign Up" />
+            <input type="submit" value="Sign Up" class="btn btn-primary" />
 
         </form>
 
