@@ -18,9 +18,8 @@ public abstract class UserSubmission {
     @Size(min = 1, max = 100, message = "Post title must be between 1 and 100 characters.")
     private String title;
 
-    @NotNull
-    @Size(min = 1, message = "Please provide a name.")
-    private String author;
+    @ManyToOne
+    private User author;
 
     private final String timeStamp;
 
@@ -29,7 +28,7 @@ public abstract class UserSubmission {
         this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
     }
 
-    public UserSubmission(String title, String author) {
+    public UserSubmission(String title, User author) {
         this();
         this.title = title;
         this.author = author;
@@ -47,11 +46,11 @@ public abstract class UserSubmission {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 

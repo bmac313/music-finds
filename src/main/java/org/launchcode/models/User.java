@@ -1,8 +1,7 @@
 package org.launchcode.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -16,25 +15,39 @@ public class User {
 
     @NotNull
     @Size(min = 1, message = "Username cannot be empty.")
-    private String userName;
+    private String username;
 
     //TODO: Hash password instead of storing it in plain text
     @NotNull
     @Size(min = 1, message = "Password cannot be empty.")
     private String password;
 
-    private List<Post> posts;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<UserSubmission> submissions;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Comment> comments;
+
+
+    public User() {}
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public int getId() {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPassword() {
@@ -45,12 +58,35 @@ public class User {
         this.password = password;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public List<UserSubmission> getSubmissions() {
+        return submissions;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setSubmissions(List<UserSubmission> submissions) {
+        this.submissions = submissions;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addSubmissionToAccount(UserSubmission submission) {
+        this.submissions.add(submission);
+    }
+
+    public void removeSubmissionFromAccount(UserSubmission submission) {
+        this.submissions.remove(submission);
+    }
+
+    public void addCommentToAccount(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void removeCommentFromAccount(Comment comment) {
+        this.comments.remove(comment);
+    }
 }

@@ -1,10 +1,7 @@
 package org.launchcode.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -21,9 +18,8 @@ public class Comment {
     @Size(min = 1, message = "The comment body cannot be empty.")
     private String text;
 
-    @NotNull
-    @Size(min = 1, message = "The author box cannot be empty.")
-    private String author;
+    @ManyToOne
+    private User author;
 
     private final String timeStamp;
 
@@ -38,7 +34,7 @@ public class Comment {
         this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
     }
 
-    public Comment(String text, String author) {
+    public Comment(String text, User author) {
         this();
         this.text = text;
         this.author = author;
@@ -56,11 +52,11 @@ public class Comment {
         this.text = text;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
