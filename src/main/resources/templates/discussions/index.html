@@ -12,9 +12,9 @@
 
     <main class="container">
 
-        <a class="btn btn-primary" href="discussions/newtopic">Start a Discussion</a>
+        <a class="btn btn-primary" th:href="@{/discussions/newtopic}">Start a Discussion</a>
 
-        <p th:unless="${discussions} and ${discussions.size()}">There are currently no discussions. Click 'Start a Discussion' Above to add one!</p>
+        <p th:unless="${discussions} and ${discussions.getSize()}">There are currently no discussions. Click 'Start a Discussion' Above to add one!</p>
         <article class="container post" th:each="discussion : ${discussions}">
             <a th:href="'/discussions/viewtopic/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
             <p th:text="'Posted by ' + ${discussion.author.username}"></p>

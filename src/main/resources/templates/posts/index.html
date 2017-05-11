@@ -12,9 +12,9 @@
 
     <main class="container">
 
-        <a class="btn btn-primary" href="posts/newpost">Share a Find</a>
+        <a class="btn btn-primary" th:href="@{/posts/newpost}">Share a Find</a>
 
-        <p th:unless="${posts} and ${posts.size()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
+        <p th:unless="${posts} and ${posts.getSize()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
 
         <article class="container post" th:each="post : ${posts}">
             <a th:href="'/posts/viewpost/' + ${post.id}"><h2 th:text="${post.title}"></h2></a>
