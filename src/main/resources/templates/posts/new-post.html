@@ -15,40 +15,31 @@
         <p>Fields marked with an asterisk (*) are required.</p>
         <form th:object="${post}" method="post">
 
-            <div class="form-group">
+            <div class="input-group">
                 <label th:for="title">Post Title*</label>
-                <input th:field="*{title}" />
+                <input th:field="*{title}" class="form-control" />
                 <span th:errors="*{title}" class="error"></span>
             </div>
 
-            <div class="form-group">
+            <div class="input-group">
                 <label th:for="imgUrl">Photo URL*</label>
-                <input th:field="*{imgUrl}" />
+                <input th:field="*{imgUrl}" class="form-control" />
                 <a href="#" data-toggle="tooltip" title="Upload your image to an image host (such as imgur) then paste the direct link to it here.">
                     <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                 </a>
                 <span th:errors="*{imgUrl}" class="error"></span>
             </div>
 
-            <div class="form-group">
+            <div class="input-group">
                 <label th:for="location">Location*</label>
-                <input th:field="*{location}" />
+                <input th:field="*{location}" class="form-control" />
                 <a href="#" data-toggle="tooltip" title="Enter the name and address of the location where you found the item.">
                     <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                 </a>
                 <span th:errors="*{location}" class="error"></span>
             </div>
 
-            <div class="form-group">
-                <label th:for="author">Username*</label>
-                <input th:field="*{author}" />
-                <a href="#" data-toggle="tooltip" title="Enter a name you would like to appear on your post.">
-                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                </a>
-                <span th:errors="*{author}" class="error"></span>
-            </div>
-
-            <input type="submit" value="Post" />
+            <input type="submit" value="Post" class="btn btn-primary" />
 
         </form>
 

@@ -15,28 +15,19 @@
         <p>Fields marked with an asterisk (*) are required.</p>
         <form th:object="${discussion}" method="post">
 
-            <div class="form-group">
+            <div class="input-group">
                 <label th:for="title">Post Title*</label>
-                <input th:field="*{title}" />
+                <input th:field="*{title}" class="form-control" />
                 <span th:errors="*{title}" class="error"></span>
             </div>
 
-            <div class="form-group">
+            <div class="input-group">
                 <label th:for="postBody">Post Body*</label>
-                <textarea th:field="*{postBody}"></textarea>
+                <textarea th:field="*{postBody}" class="form-control"></textarea>
                 <span th:errors="*{postBody}" class="error"></span>
             </div>
 
-            <div class="form-group">
-                <label th:for="author">Username*</label>
-                <input th:field="*{author}" />
-                <a href="#" data-toggle="tooltip" title="Enter a name you would like to appear on your post.">
-                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                </a>
-                <span th:errors="*{author}" class="error"></span>
-            </div>
-
-            <input type="submit" value="Post" />
+            <input type="submit" value="Post" class="btn btn-primary" />
 
         </form>
 
