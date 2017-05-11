@@ -2,19 +2,19 @@ package org.launchcode.controllers;
 
 import org.launchcode.models.Comment;
 import org.launchcode.models.Discussion;
+import org.launchcode.models.User;
 import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.DiscussionDao;
+import org.launchcode.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.nio.channels.Pipe;
 
 @Controller
 @RequestMapping(value = "discussions")
@@ -25,6 +25,9 @@ public class DiscussionController {
 
     @Autowired
     private CommentDao commentDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
@@ -48,7 +51,8 @@ public class DiscussionController {
 
     @RequestMapping(value = "newtopic", method = RequestMethod.POST)
     public String processNewDiscussionForm(@ModelAttribute @Valid Discussion newDiscussion,
-                                           Errors errors, Model model) {
+                                           Errors errors,
+                                           @CookieValue("id") String userIdCookie, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "New Discussion Topic - MusicFinds");
@@ -56,6 +60,11 @@ public class DiscussionController {
             return "discussions/new-discussion";
         }
 
+        int userId = Integer.parseInt(userIdCookie);
+        User author = userDao.findOne(userId);
+
+        author.addSubmissionToAccount(newDiscussion);
+        newDiscussion.setAuthor(author);
         discussionDao.save(newDiscussion);
 
         return "redirect:";

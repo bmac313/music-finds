@@ -2,17 +2,17 @@ package org.launchcode.controllers;
 
 import org.launchcode.models.Comment;
 import org.launchcode.models.Post;
+import org.launchcode.models.User;
 import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.PostDao;
+import org.launchcode.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,9 +26,13 @@ public class PostController {
     @Autowired
     private CommentDao commentDao;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model) {
+    @Autowired
+    private UserDao userDao;
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String index(Model model, @RequestParam(defaultValue = "0") int page) {
+
+        //model.addAttribute("posts", postDao.findAll(new PageRequest(page, 5, new Sort(Sort.Direction.DESC, "timeStamp"))));
         model.addAttribute("posts", postDao.findAll(new Sort(Sort.Direction.DESC, "timeStamp")));
         model.addAttribute("title", "Latest Finds - MusicFinds");
 
@@ -47,7 +51,8 @@ public class PostController {
 
     @RequestMapping(value = "newpost", method = RequestMethod.POST)
     public String handleNewPostSubmission(@Valid @ModelAttribute Post postToAdd,
-                                          Errors errors, Model model) {
+                                          Errors errors,
+                                          @CookieValue("id") String userIdCookie, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Share a Find - MusicFinds");
@@ -55,6 +60,11 @@ public class PostController {
             return "posts/new-post";
         }
 
+        int userId = Integer.parseInt(userIdCookie);
+        User author = userDao.findOne(userId);
+
+        author.addSubmissionToAccount(postToAdd);
+        postToAdd.setAuthor(author);
         postDao.save(postToAdd);
 
         return "redirect:";
