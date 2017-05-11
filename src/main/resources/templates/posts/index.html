@@ -11,14 +11,15 @@
     </header>
 
     <main class="container">
-        <p th:unless="${posts} and ${posts.size()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
 
         <a class="btn btn-primary" href="posts/newpost">Share a Find</a>
+
+        <p th:unless="${posts} and ${posts.size()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
 
         <article class="container post" th:each="post : ${posts}">
             <a th:href="'/posts/viewpost/' + ${post.id}"><h2 th:text="${post.title}"></h2></a>
             <img th:src="${post.imgUrl}" src="" style="max-width:35%;" />
-            <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author}"></p>
+            <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
             <span th:text="${post.timeStamp}"></span>
         </article>
     </main>

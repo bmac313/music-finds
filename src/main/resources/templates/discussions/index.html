@@ -17,7 +17,7 @@
         <p th:unless="${discussions} and ${discussions.size()}">There are currently no discussions. Click 'Start a Discussion' Above to add one!</p>
         <article class="container post" th:each="discussion : ${discussions}">
             <a th:href="'/discussions/viewtopic/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
-            <p th:text="'Posted by ' + ${discussion.author}"></p>
+            <p th:text="'Posted by ' + ${discussion.author.username}"></p>
             <span th:text="${discussion.timeStamp}"></span>
         </article>
     </main>
