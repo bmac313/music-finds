@@ -32,8 +32,7 @@ public class PostController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model, @RequestParam(defaultValue = "0") int page) {
 
-        //model.addAttribute("posts", postDao.findAll(new PageRequest(page, 5, new Sort(Sort.Direction.DESC, "timeStamp"))));
-        model.addAttribute("posts", postDao.findAll(new Sort(Sort.Direction.DESC, "timeStamp")));
+        model.addAttribute("posts", postDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
         model.addAttribute("title", "Latest Finds - MusicFinds");
 
         return "posts/index";

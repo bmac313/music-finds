@@ -7,6 +7,7 @@ import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.DiscussionDao;
 import org.launchcode.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +31,10 @@ public class DiscussionController {
     private UserDao userDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(defaultValue = "0") int page) {
 
         model.addAttribute("title", "Discussions - MusicFinds");
-        model.addAttribute("discussions", discussionDao.findAll(new Sort(Sort.Direction.DESC, "timeStamp")));
+        model.addAttribute("discussions", discussionDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
 
         return "discussions/index";
 
