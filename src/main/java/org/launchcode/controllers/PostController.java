@@ -35,6 +35,11 @@ public class PostController {
         model.addAttribute("posts", postDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
         model.addAttribute("title", "Latest Finds - MusicFinds");
 
+        model.addAttribute("findsActiveStatus", "active");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
+
         return "posts/index";
     }
 
@@ -44,6 +49,11 @@ public class PostController {
         model.addAttribute("title", "Share a Find - MusicFinds");
         model.addAttribute("header", "Share a Find");
         model.addAttribute(new Post());
+
+        model.addAttribute("findsActiveStatus", "active");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
 
         return "posts/new-post";
     }
@@ -56,6 +66,12 @@ public class PostController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Share a Find - MusicFinds");
             model.addAttribute("header", "Share a Find");
+
+            model.addAttribute("findsActiveStatus", "active");
+            model.addAttribute("discActiveStatus", "inactive");
+            model.addAttribute("loginActiveStatus", "inactive");
+            model.addAttribute("signupActiveStatus", "inactive");
+
             return "posts/new-post";
         }
 
@@ -79,6 +95,11 @@ public class PostController {
         model.addAttribute(new Comment());
         model.addAttribute("comments", post.getComments());
 
+        model.addAttribute("findsActiveStatus", "active");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
+
         return "posts/view-post";
     }
 
@@ -96,6 +117,12 @@ public class PostController {
             model.addAttribute("post", post);
             model.addAttribute(new Comment());
             model.addAttribute("comments", post.getComments());
+
+            model.addAttribute("findsActiveStatus", "active");
+            model.addAttribute("discActiveStatus", "inactive");
+            model.addAttribute("loginActiveStatus", "inactive");
+            model.addAttribute("signupActiveStatus", "inactive");
+
             return "posts/view-post";
         }
 
@@ -106,6 +133,11 @@ public class PostController {
         model.addAttribute("post", post);
         model.addAttribute(new Comment());
         model.addAttribute("comments", post.getComments());
+
+        model.addAttribute("findsActiveStatus", "active");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
 
         return "posts/view-post";
     }

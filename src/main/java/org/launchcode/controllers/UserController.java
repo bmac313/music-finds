@@ -30,6 +30,12 @@ public class UserController {
         model.addAttribute("title", "Log In - MusicFinds");
         model.addAttribute("header", "Log in to your account");
         model.addAttribute("login", loginForm);
+
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "active");
+        model.addAttribute("signupActiveStatus", "inactive");
+
         return "users/login";
     }
 
@@ -40,6 +46,12 @@ public class UserController {
             model.addAttribute("title", "Log In - MusicFinds");
             model.addAttribute("header", "Log in to your account");
             model.addAttribute("wrongLoginInfoError", "");
+
+            model.addAttribute("findsActiveStatus", "inactive");
+            model.addAttribute("discActiveStatus", "inactive");
+            model.addAttribute("loginActiveStatus", "active");
+            model.addAttribute("signupActiveStatus", "inactive");
+
             return "users/login";
         }
 
@@ -72,6 +84,12 @@ public class UserController {
         model.addAttribute("title", "Log In - MusicFinds");
         model.addAttribute("header", "Log in to your account");
         model.addAttribute("wrongLoginInfoError", "Incorrect username or password.");
+
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "active");
+        model.addAttribute("signupActiveStatus", "inactive");
+
         return "users/login";
     }
 
@@ -80,6 +98,12 @@ public class UserController {
         model.addAttribute("title", "Sign Up - MusicFinds");
         model.addAttribute("header", "Create an account");
         model.addAttribute(new User());
+
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "inactive");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "active");
+
         return "users/signup";
     }
 
@@ -89,6 +113,12 @@ public class UserController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
+
+            model.addAttribute("findsActiveStatus", "inactive");
+            model.addAttribute("discActiveStatus", "inactive");
+            model.addAttribute("loginActiveStatus", "inactive");
+            model.addAttribute("signupActiveStatus", "active");
+
             return "users/signup";
         }
 

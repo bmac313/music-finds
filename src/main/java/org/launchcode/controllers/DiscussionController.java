@@ -36,6 +36,11 @@ public class DiscussionController {
         model.addAttribute("title", "Discussions - MusicFinds");
         model.addAttribute("discussions", discussionDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
 
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "active");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
+
         return "discussions/index";
 
     }
@@ -46,6 +51,11 @@ public class DiscussionController {
         model.addAttribute("title", "New Discussion Topic - MusicFinds");
         model.addAttribute("header", "New Discussion Topic");
         model.addAttribute(new Discussion());
+
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "active");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
 
         return "discussions/new-discussion";
     }
@@ -58,6 +68,12 @@ public class DiscussionController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "New Discussion Topic - MusicFinds");
             model.addAttribute("header", "New Discussion Topic");
+
+            model.addAttribute("findsActiveStatus", "inactive");
+            model.addAttribute("discActiveStatus", "active");
+            model.addAttribute("loginActiveStatus", "inactive");
+            model.addAttribute("signupActiveStatus", "inactive");
+
             return "discussions/new-discussion";
         }
 
@@ -81,6 +97,12 @@ public class DiscussionController {
         model.addAttribute("discussion", discussion);
         model.addAttribute(new Comment());
         model.addAttribute("comments", discussion.getComments());
+
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "active");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
+
         return "discussions/view-discussion";
     }
 
@@ -98,6 +120,12 @@ public class DiscussionController {
             model.addAttribute("discussion", discussion);
             model.addAttribute(new Comment());
             model.addAttribute("comments", discussion.getComments());
+
+            model.addAttribute("findsActiveStatus", "inactive");
+            model.addAttribute("discActiveStatus", "active");
+            model.addAttribute("loginActiveStatus", "inactive");
+            model.addAttribute("signupActiveStatus", "inactive");
+
             return "discussions/view-discussion";
         }
 
@@ -108,6 +136,11 @@ public class DiscussionController {
         model.addAttribute("discussion", discussion);
         model.addAttribute(new Comment());
         model.addAttribute("comments", discussion.getComments());
+
+        model.addAttribute("findsActiveStatus", "inactive");
+        model.addAttribute("discActiveStatus", "active");
+        model.addAttribute("loginActiveStatus", "inactive");
+        model.addAttribute("signupActiveStatus", "inactive");
 
         return "discussions/view-discussion";
 
