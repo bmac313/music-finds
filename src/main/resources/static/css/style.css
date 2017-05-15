@@ -10,3 +10,7 @@ body {
 .navbar {
     background-color:#43f27d;
 }
+
+.nav-emphasis {
+    color:#337ab7;
+}
