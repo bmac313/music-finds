@@ -18,13 +18,13 @@
             <div class="input-group">
                 <label th:for="title">Post Title*</label>
                 <input th:field="*{title}" class="form-control" />
-                <span th:errors="*{title}" class="error"></span>
+                <span th:errors="*{title}" class="text-danger"></span>
             </div>
 
             <div class="input-group">
                 <label th:for="postBody">Post Body*</label>
                 <textarea th:field="*{postBody}" class="form-control"></textarea>
-                <span th:errors="*{postBody}" class="error"></span>
+                <span th:errors="*{postBody}" class="text-danger"></span>
             </div>
 
             <input type="submit" value="Post" class="btn btn-primary" />

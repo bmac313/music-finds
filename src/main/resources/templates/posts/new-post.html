@@ -18,7 +18,7 @@
             <div class="input-group">
                 <label th:for="title">Post Title*</label>
                 <input th:field="*{title}" class="form-control" />
-                <span th:errors="*{title}" class="error"></span>
+                <span th:errors="*{title}" class="text-danger"></span>
             </div>
 
             <div class="input-group">
@@ -27,7 +27,7 @@
                 <a href="#" data-toggle="tooltip" title="Upload your image to an image host (such as imgur) then paste the direct link to it here.">
                     <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                 </a>
-                <span th:errors="*{imgUrl}" class="error"></span>
+                <span th:errors="*{imgUrl}" class="text-danger"></span>
             </div>
 
             <div class="input-group">
@@ -36,7 +36,7 @@
                 <a href="#" data-toggle="tooltip" title="Enter the name and address of the location where you found the item.">
                     <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                 </a>
-                <span th:errors="*{location}" class="error"></span>
+                <span th:errors="*{location}" class="text-danger"></span>
             </div>
 
             <input type="submit" value="Post" class="btn btn-primary" />

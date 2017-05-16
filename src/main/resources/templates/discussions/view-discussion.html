@@ -24,7 +24,7 @@
             <div class="input-group">
                 <label th:for="text">Comment</label>
                 <textarea th:field="*{text}" class="form-control"></textarea>
-                <span th:errors="*{text}" class="error"></span>
+                <span th:errors="*{text}" class="text-danger"></span>
             </div>
 
             <input type="submit" />

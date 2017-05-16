@@ -24,13 +24,13 @@
             <div class="form-group">
                 <label th:for="text">Comment</label>
                 <textarea th:field="*{text}"></textarea>
-                <span th:errors="*{text}" class="error"></span>
+                <span th:errors="*{text}" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label th:for="author">Display Name</label>
                 <input th:field="*{author}" />
-                <span th:errors="*{author}" class="error"></span>
+                <span th:errors="*{author}" class="text-danger"></span>
             </div>
 
             <input type="submit" />
