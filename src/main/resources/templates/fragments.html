@@ -15,6 +15,7 @@
              $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
@@ -35,8 +36,9 @@
                 <li th:class="${discActiveStatus}"><a th:href="@{/discussions}">Discussions</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li th:class="${loginActiveStatus}" class="nav-emphasis"><a th:href="@{/login}">Log In</a> </li>
-                <li th:class="${signupActiveStatus}" class="nav-emphasis"><a th:href="@{/signup}">Sign Up</a></li>
+                <li th:class="${loginActiveStatus}"><a th:href="@{/login}">Log In</a> </li>
+                <li th:class="${signupActiveStatus}"><a th:href="@{/signup}">Sign Up</a></li>
+                <li><a href="@{/logout}"></a></li>
             </ul>
         </div>
     </div>
