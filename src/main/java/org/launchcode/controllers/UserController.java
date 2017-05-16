@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-//TODO: add confirmation messages informing the user of a successful signup / login
 @Controller
 public class UserController {
 
@@ -24,17 +22,18 @@ public class UserController {
     private UserDao userDao;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String showLoginForm(Model model) {
+    public String showLoginForm(@RequestParam(defaultValue = "false") boolean loggedOut, Model model) {
         LoginForm loginForm = new LoginForm();
+
+        if (loggedOut) {
+            model.addAttribute("logOutConfirm", "You have been logged out successfully!");
+        }
 
         model.addAttribute("title", "Log In - MusicFinds");
         model.addAttribute("header", "Log in to your account");
         model.addAttribute("login", loginForm);
 
-        model.addAttribute("findsActiveStatus", "inactive");
-        model.addAttribute("discActiveStatus", "inactive");
         model.addAttribute("loginActiveStatus", "active");
-        model.addAttribute("signupActiveStatus", "inactive");
 
         return "users/login";
     }
@@ -45,17 +44,13 @@ public class UserController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Log In - MusicFinds");
             model.addAttribute("header", "Log in to your account");
-            model.addAttribute("wrongLoginInfoError", "");
 
-            model.addAttribute("findsActiveStatus", "inactive");
-            model.addAttribute("discActiveStatus", "inactive");
             model.addAttribute("loginActiveStatus", "active");
-            model.addAttribute("signupActiveStatus", "inactive");
 
             return "users/login";
         }
 
-        int userId = 0;
+        int userId;
 
         for (User user : userDao.findAll()) {
 
@@ -64,17 +59,13 @@ public class UserController {
                 if (loginForm.getPassword().equals(user.getPassword())) {
                     userId = user.getId();
 
-                    Cookie sessionCookie = new Cookie("loggedIn", "true");
-                    Cookie userNameCookie = new Cookie("username", loginForm.getUsername());
-                    Cookie userPwCookie = new Cookie("password", loginForm.getPassword());
+                    Cookie loggedInCookie = new Cookie("loggedIn", "true");
                     Cookie userIdCookie = new Cookie("id", Integer.toString(userId));
 
-                    response.addCookie(sessionCookie);
-                    response.addCookie(userNameCookie);
-                    response.addCookie(userPwCookie);
+                    response.addCookie(loggedInCookie);
                     response.addCookie(userIdCookie);
 
-                    return "redirect:";
+                    return "redirect:/posts?justLoggedIn=true";
                 }
             }
         }
@@ -85,10 +76,7 @@ public class UserController {
         model.addAttribute("header", "Log in to your account");
         model.addAttribute("wrongLoginInfoError", "Incorrect username or password.");
 
-        model.addAttribute("findsActiveStatus", "inactive");
-        model.addAttribute("discActiveStatus", "inactive");
         model.addAttribute("loginActiveStatus", "active");
-        model.addAttribute("signupActiveStatus", "inactive");
 
         return "users/login";
     }
@@ -99,9 +87,6 @@ public class UserController {
         model.addAttribute("header", "Create an account");
         model.addAttribute(new User());
 
-        model.addAttribute("findsActiveStatus", "inactive");
-        model.addAttribute("discActiveStatus", "inactive");
-        model.addAttribute("loginActiveStatus", "inactive");
         model.addAttribute("signupActiveStatus", "active");
 
         return "users/signup";
@@ -110,13 +95,13 @@ public class UserController {
     @RequestMapping(value = "signup", method = RequestMethod.POST)
     public String signupUser(@ModelAttribute @Valid User newUser,
                              Errors errors, Model model) {
+
+        //TODO: Handle password confirmation
+
         if (errors.hasErrors()) {
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
 
-            model.addAttribute("findsActiveStatus", "inactive");
-            model.addAttribute("discActiveStatus", "inactive");
-            model.addAttribute("loginActiveStatus", "inactive");
             model.addAttribute("signupActiveStatus", "active");
 
             return "users/signup";
@@ -124,6 +109,26 @@ public class UserController {
 
         userDao.save(newUser);
 
-        return "redirect:";
+        return "redirect:/posts?justSignedUp=true";
+    }
+
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logOutUser(HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+
+        Cookie loggedInCookie = new Cookie("loggedIn", null);
+        Cookie userIdCookie = new Cookie("id", null);
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("loggedIn")) {
+                response.addCookie(loggedInCookie);
+            }
+            if (cookie.getName().equals("id")) {
+                response.addCookie(userIdCookie);
+            }
+        }
+
+        return "redirect:/login?loggedOut=true";
     }
 }
