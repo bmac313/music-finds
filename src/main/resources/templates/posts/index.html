@@ -12,6 +12,8 @@
 
     <main class="container">
 
+        <div th:class="${alertClass}" th:text="${alert}"></div>
+
         <a class="btn btn-primary" th:href="@{/posts/newpost}">Share a Find</a>
 
         <p th:unless="${posts} and ${posts.getSize()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
