@@ -30,15 +30,25 @@ public class PostController {
     private UserDao userDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String index(Model model,
+                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "false") boolean justLoggedIn,
+                        @RequestParam(defaultValue = "false") boolean justSignedUp) {
+
+        if (justLoggedIn) {
+            model.addAttribute("alertClass", "alert alert-success");
+            model.addAttribute("alert", "Logged in successfully!");
+        }
+
+        if (justSignedUp) {
+            model.addAttribute("alertClass", "alert alert-success");
+            model.addAttribute("alert", "Signed up successfully!");
+        }
 
         model.addAttribute("posts", postDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
         model.addAttribute("title", "Latest Finds - MusicFinds");
 
         model.addAttribute("findsActiveStatus", "active");
-        model.addAttribute("discActiveStatus", "inactive");
-        model.addAttribute("loginActiveStatus", "inactive");
-        model.addAttribute("signupActiveStatus", "inactive");
 
         return "posts/index";
     }
@@ -51,9 +61,6 @@ public class PostController {
         model.addAttribute(new Post());
 
         model.addAttribute("findsActiveStatus", "active");
-        model.addAttribute("discActiveStatus", "inactive");
-        model.addAttribute("loginActiveStatus", "inactive");
-        model.addAttribute("signupActiveStatus", "inactive");
 
         return "posts/new-post";
     }
@@ -64,13 +71,11 @@ public class PostController {
                                           @CookieValue("id") String userIdCookie, Model model) {
 
         if (errors.hasErrors()) {
+
             model.addAttribute("title", "Share a Find - MusicFinds");
             model.addAttribute("header", "Share a Find");
 
             model.addAttribute("findsActiveStatus", "active");
-            model.addAttribute("discActiveStatus", "inactive");
-            model.addAttribute("loginActiveStatus", "inactive");
-            model.addAttribute("signupActiveStatus", "inactive");
 
             return "posts/new-post";
         }
@@ -86,7 +91,8 @@ public class PostController {
     }
 
     @RequestMapping(value = "viewpost/{id}", method = RequestMethod.GET)
-    public String viewPost(@PathVariable(value = "id") int id, Model model) {
+    public String viewPost(@PathVariable(value = "id") int id,
+                           @CookieValue("id") String userIdCookie, Model model) {
 
         Post post = postDao.findOne(id);
 
@@ -96,9 +102,6 @@ public class PostController {
         model.addAttribute("comments", post.getComments());
 
         model.addAttribute("findsActiveStatus", "active");
-        model.addAttribute("discActiveStatus", "inactive");
-        model.addAttribute("loginActiveStatus", "inactive");
-        model.addAttribute("signupActiveStatus", "inactive");
 
         return "posts/view-post";
     }
@@ -119,9 +122,6 @@ public class PostController {
             model.addAttribute("comments", post.getComments());
 
             model.addAttribute("findsActiveStatus", "active");
-            model.addAttribute("discActiveStatus", "inactive");
-            model.addAttribute("loginActiveStatus", "inactive");
-            model.addAttribute("signupActiveStatus", "inactive");
 
             return "posts/view-post";
         }
@@ -135,9 +135,6 @@ public class PostController {
         model.addAttribute("comments", post.getComments());
 
         model.addAttribute("findsActiveStatus", "active");
-        model.addAttribute("discActiveStatus", "inactive");
-        model.addAttribute("loginActiveStatus", "inactive");
-        model.addAttribute("signupActiveStatus", "inactive");
 
         return "posts/view-post";
     }
