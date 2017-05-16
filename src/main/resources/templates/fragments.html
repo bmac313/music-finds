@@ -38,7 +38,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li th:class="${loginActiveStatus}"><a th:href="@{/login}">Log In</a> </li>
                 <li th:class="${signupActiveStatus}"><a th:href="@{/signup}">Sign Up</a></li>
-                <li><a href="@{/logout}"></a></li>
+                <li><a th:href="@{/logout}">Log Out</a></li>
             </ul>
         </div>
     </div>
