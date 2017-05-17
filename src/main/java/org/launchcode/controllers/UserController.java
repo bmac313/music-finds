@@ -61,9 +61,11 @@ public class UserController {
 
                     Cookie loggedInCookie = new Cookie("loggedIn", "true");
                     Cookie userIdCookie = new Cookie("id", Integer.toString(userId));
+                    Cookie passwordCookie = new Cookie("password", user.getPassword());
 
                     response.addCookie(loggedInCookie);
                     response.addCookie(userIdCookie);
+                    response.addCookie(passwordCookie);
 
                     return "redirect:/posts?justLoggedIn=true";
                 }
