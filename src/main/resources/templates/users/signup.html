@@ -11,6 +11,7 @@
     </header>
 
     <main class="container">
+
         <h1 th:text="${header}"></h1>
         <p>Fields marked with an asterisk (*) are required.</p>
 
@@ -19,13 +20,20 @@
             <div class="input-group">
                 <label th:for="username">Username*</label>
                 <input th:field="*{username}" class="form-control" />
-                <span th:errors="*{username}" class="error"></span>
+                <span th:errors="*{username}" class="text-danger"></span>
+                <span th:text="${usernameTakenError}" class="text-danger"></span>
             </div>
 
             <div class="input-group">
                 <label th:for="password">Password*</label>
                 <input th:field="*{password}" type="password" class="form-control" />
-                <span th:errors="*{password}" class="error"></span>
+                <span th:errors="*{password}" class="text-danger"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="passwordConfirm">Confirm Password*</label>
+                <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control" />
+                <span th:text="${passwordConfirmError}" class="text-danger"></span>
             </div>
 
             <input type="submit" value="Sign Up" class="btn btn-primary" />
