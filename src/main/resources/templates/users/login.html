@@ -11,11 +11,12 @@
     </header>
 
     <main class="container">
+        <div th:text="${logOutConfirm}" th:class="${alertClass1}"></div>
+        <div th:text="${loginPrompt}" th:class="${alertClass2}"></div>
         <h1 th:text="${header}"></h1>
         <p>Fields marked with an asterisk (*) are required.</p>
 
         <span th:text="${wrongLoginInfoError}" class="text-danger"></span>
-        <span th:text="${logOutConfirm}" class="text-success"></span>
 
         <form th:object="${login}" method="post">
 
