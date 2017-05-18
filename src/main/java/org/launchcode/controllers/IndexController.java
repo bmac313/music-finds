@@ -15,11 +15,9 @@ public class IndexController {
     public String index(HttpServletRequest request, HttpServletResponse response) {
         // Set up blank cookies if they do not already exist.
         if (request.getCookies() == null) {
-            Cookie loggedInCookie = new Cookie("loggedIn", null);
-            Cookie userIdCookie = new Cookie("id", null);
-            Cookie passwordCookie = new Cookie("password", null);
+            Cookie userIdCookie = new Cookie("id", "");
+            Cookie passwordCookie = new Cookie("password", "");
 
-            response.addCookie(loggedInCookie);
             response.addCookie(userIdCookie);
             response.addCookie(passwordCookie);
         }
