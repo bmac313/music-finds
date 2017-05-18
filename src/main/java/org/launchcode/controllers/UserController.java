@@ -22,11 +22,20 @@ public class UserController {
     private UserDao userDao;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String showLoginForm(@RequestParam(defaultValue = "false") boolean loggedOut, Model model) {
+    public String showLoginForm(@RequestParam(defaultValue = "false") boolean loggedOut,
+                                @RequestParam(defaultValue = "false") boolean loginPrompt,
+                                Model model) {
+
         LoginForm loginForm = new LoginForm();
 
         if (loggedOut) {
             model.addAttribute("logOutConfirm", "You have been logged out successfully!");
+            model.addAttribute("alertClass1", "alert alert-success");
+        }
+
+        if (loginPrompt) {
+            model.addAttribute("loginPrompt", "You must log in to see this page.");
+            model.addAttribute("alertClass2", "alert alert-warning");
         }
 
         model.addAttribute("title", "Log In - MusicFinds");
@@ -59,11 +68,9 @@ public class UserController {
                 if (loginForm.getPassword().equals(user.getPassword())) {
                     userId = user.getId();
 
-                    Cookie loggedInCookie = new Cookie("loggedIn", "true");
                     Cookie userIdCookie = new Cookie("id", Integer.toString(userId));
                     Cookie passwordCookie = new Cookie("password", user.getPassword());
 
-                    response.addCookie(loggedInCookie);
                     response.addCookie(userIdCookie);
                     response.addCookie(passwordCookie);
 
@@ -96,17 +103,38 @@ public class UserController {
 
     @RequestMapping(value = "signup", method = RequestMethod.POST)
     public String signupUser(@ModelAttribute @Valid User newUser,
-                             Errors errors, Model model) {
-
-        //TODO: Handle password confirmation
+                             Errors errors,
+                             @RequestParam String passwordConfirm, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
-
             model.addAttribute("signupActiveStatus", "active");
 
             return "users/signup";
+        }
+
+        // If the passwords do not match, create an error and return to the signup form.
+        if (!passwordConfirm.equals(newUser.getPassword())) {
+            model.addAttribute("title", "Sign Up - MusicFinds");
+            model.addAttribute("header", "Create an account");
+            model.addAttribute("signupActiveStatus", "active");
+            model.addAttribute("passwordConfirmError", "The passwords you entered do not match.");
+
+            return "users/signup";
+        }
+
+        /* Loop through the users in the database. If the username that was just entered already exists in the
+           database, create an error and return to the signup form.*/
+        for (User existingUser : userDao.findAll()) {
+            if (newUser.getUsername().equals(existingUser.getUsername())) {
+                model.addAttribute("title", "Sign Up - MusicFinds");
+                model.addAttribute("header", "Create an account");
+                model.addAttribute("signupActiveStatus", "active");
+                model.addAttribute("usernameTakenError", "That username is already taken.");
+
+                return "users/signup";
+            }
         }
 
         userDao.save(newUser);
@@ -117,17 +145,19 @@ public class UserController {
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logOutUser(HttpServletRequest request, HttpServletResponse response) {
 
+        // Set the current cookie values to empty.
+
         Cookie[] cookies = request.getCookies();
 
-        Cookie loggedInCookie = new Cookie("loggedIn", null);
-        Cookie userIdCookie = new Cookie("id", null);
+        Cookie userIdCookie = new Cookie("id", "");
+        Cookie passwordCookie = new Cookie("password", "");
 
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("loggedIn")) {
-                response.addCookie(loggedInCookie);
-            }
             if (cookie.getName().equals("id")) {
                 response.addCookie(userIdCookie);
+            }
+            if (cookie.getName().equals("password")) {
+                response.addCookie(passwordCookie);
             }
         }
 
