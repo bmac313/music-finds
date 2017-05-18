@@ -54,7 +54,13 @@ public class PostController {
     }
 
     @RequestMapping(value = "newpost", method = RequestMethod.GET)
-    public String showNewPostForm(Model model) {
+    public String showNewPostForm(Model model,
+                                  @CookieValue("id") String userIdCookie,
+                                  @CookieValue("password") String passwordCookie) {
+
+        if (userIdCookie.equals("") || passwordCookie.equals("")) {
+            return "redirect:/login?loginPrompt=true";
+        }
 
         model.addAttribute("title", "Share a Find - MusicFinds");
         model.addAttribute("header", "Share a Find");

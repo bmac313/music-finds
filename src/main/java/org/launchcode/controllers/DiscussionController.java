@@ -46,7 +46,13 @@ public class DiscussionController {
     }
 
     @RequestMapping(value = "newtopic", method = RequestMethod.GET)
-    public String showNewDiscussionForm(Model model) {
+    public String showNewDiscussionForm(@CookieValue("id") String userIdCookie,
+                                        @CookieValue("password") String passwordCookie,
+                                        Model model) {
+
+        if (userIdCookie.equals("") || passwordCookie.equals("")) {
+            return "redirect:/login?loginPrompt=true";
+        }
 
         model.addAttribute("title", "New Discussion Topic - MusicFinds");
         model.addAttribute("header", "New Discussion Topic");
