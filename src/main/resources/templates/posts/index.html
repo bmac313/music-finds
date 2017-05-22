@@ -18,17 +18,17 @@
 
         <p th:unless="${posts} and ${posts.getSize()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
 
-        <article class="container post" th:each="post : ${posts}">
+        <article class="container-fluid post" th:each="post : ${posts}">
             <a th:href="'/posts/viewpost/' + ${post.id}"><h2 th:text="${post.title}"></h2></a>
-            <img th:src="${post.imgUrl}" src="" style="max-width:35%;" />
+            <img th:src="${post.imgUrl}" src="" class="img-responsive img-rounded" />
             <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
             <span th:text="${post.timeStamp}"></span>
         </article>
 
         <nav aria-label="...">
             <ul class="pager">
-                <li><a th:href="@{'/discussions?page=' + ${page - 1}}" th:class="${visibilityPrev}">Previous Page</a></li>
-                <li><a th:href="@{'/discussions?page=' + ${page + 1}}" th:class="${visibilityNext}">Next Page</a></li>
+                <li><a th:href="@{'/posts?page=' + ${page - 1}}" th:class="${visibilityPrev}">Previous Page</a></li>
+                <li><a th:href="@{'/posts?page=' + ${page + 1}}" th:class="${visibilityNext}">Next Page</a></li>
             </ul>
         </nav>
 
