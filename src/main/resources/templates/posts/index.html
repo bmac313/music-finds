@@ -24,6 +24,14 @@
             <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
             <span th:text="${post.timeStamp}"></span>
         </article>
+
+        <nav aria-label="...">
+            <ul class="pager">
+                <li><a th:href="@{'/discussions?page=' + ${page - 1}}" th:class="${visibilityPrev}">Previous Page</a></li>
+                <li><a th:href="@{'/discussions?page=' + ${page + 1}}" th:class="${visibilityNext}">Next Page</a></li>
+            </ul>
+        </nav>
+
     </main>
 
 </div>

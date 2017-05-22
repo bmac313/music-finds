@@ -7,6 +7,7 @@ import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.PostDao;
 import org.launchcode.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -31,9 +32,12 @@ public class PostController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model,
-                        @RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "1") int page,
                         @RequestParam(defaultValue = "false") boolean justLoggedIn,
                         @RequestParam(defaultValue = "false") boolean justSignedUp) {
+
+        PageRequest pageRequest = new PageRequest(page-1, 5, Sort.Direction.DESC, "timeStamp");
+        int pages = postDao.findAll(pageRequest).getTotalPages();
 
         if (justLoggedIn) {
             model.addAttribute("alertClass", "alert alert-success");
@@ -45,9 +49,18 @@ public class PostController {
             model.addAttribute("alert", "Signed up successfully!");
         }
 
-        model.addAttribute("posts", postDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
+        if ((page-1) <= 0) {
+            model.addAttribute("visibilityPrev", "hidden");
+        }
+
+        if ((page) >= pages) {
+            model.addAttribute("visibilityNext", "hidden");
+        }
+
+        model.addAttribute("posts", postDao.findAll(pageRequest));
         model.addAttribute("title", "Latest Finds - MusicFinds");
 
+        model.addAttribute("page", page);
         model.addAttribute("findsActiveStatus", "active");
 
         return "posts/index";

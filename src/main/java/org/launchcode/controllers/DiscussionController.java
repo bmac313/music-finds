@@ -31,10 +31,22 @@ public class DiscussionController {
     private UserDao userDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String index(Model model, @RequestParam(defaultValue = "1") int page) {
+
+        PageRequest pageRequest = new PageRequest(page-1, 5, Sort.Direction.DESC, "timeStamp");
+        int pages = discussionDao.findAll(pageRequest).getTotalPages();
+
+        if ((page-1) <= 0) {
+            model.addAttribute("visibilityPrev", "hidden");
+        }
+
+        if ((page) >= pages) {
+            model.addAttribute("visibilityNext", "hidden");
+        }
 
         model.addAttribute("title", "Discussions - MusicFinds");
-        model.addAttribute("discussions", discussionDao.findAll(new PageRequest(page, 5, Sort.Direction.DESC, "timeStamp")));
+        model.addAttribute("discussions", discussionDao.findAll(pageRequest));
+        model.addAttribute("page", page);
 
         model.addAttribute("findsActiveStatus", "inactive");
         model.addAttribute("discActiveStatus", "active");
