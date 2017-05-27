@@ -17,7 +17,6 @@ public class User {
     @Size(min = 1, message = "Username cannot be empty.")
     private String username;
 
-    //TODO: Hash password instead of storing it in plain text
     @NotNull
     @Size(min = 1, message = "Password cannot be empty.")
     private String password;

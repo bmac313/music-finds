@@ -25,7 +25,7 @@ public class Post extends UserSubmission{
 
     public Post() {}
 
-    public Post(String location, String imgUrl) {
+    public Post(String location, String imgUrl, String description) {
         super();
         this.location = location;
         this.imgUrl = imgUrl;
