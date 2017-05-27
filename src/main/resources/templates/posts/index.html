@@ -21,10 +21,10 @@
         <article class="container-fluid post" th:each="post : ${posts}">
 
             <div class="row">
+                <h2><a th:href="@{'/posts/viewpost/' + ${post.id}}" th:text="${post.title}"></a></h2>
+            </div>
 
-                <div class="col-lg-10 col-md-10 col-sm-10">
-                    <h2><a th:href="@{'/posts/viewpost/' + ${post.id}}" th:text="${post.title}"></a></h2>
-                </div>
+            <div class="row">
 
                 <div class="cells">
                     <div class="col-lg-5 post-cell-left">
