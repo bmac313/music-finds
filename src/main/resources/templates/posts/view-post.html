@@ -19,18 +19,12 @@
             <span th:text="${post.timeStamp}"></span>
         </article>
 
-        <form th:object="${comment}" method="post">
+        <form th:class="${visibilityComments}" th:object="${comment}" method="post">
 
             <div class="form-group">
-                <label th:for="text">Comment</label>
-                <textarea th:field="*{text}"></textarea>
+                <label th:for="text">Write a Comment</label>
+                <textarea class="form-control" th:field="*{text}"></textarea>
                 <span th:errors="*{text}" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label th:for="author">Display Name</label>
-                <input th:field="*{author}" />
-                <span th:errors="*{author}" class="text-danger"></span>
             </div>
 
             <input type="submit" />
@@ -38,7 +32,7 @@
         </form>
 
         <article class="container comment" th:each="comment : ${comments}">
-            <h6 th:text="${comment.author}"></h6>
+            <h6 th:text="${comment.author.username}"></h6>
             <p th:text="${comment.text}"></p>
         </article>
 

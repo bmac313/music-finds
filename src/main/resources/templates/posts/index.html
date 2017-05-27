@@ -19,10 +19,27 @@
         <p th:unless="${posts} and ${posts.getSize()}">There are currently no finds. Click 'Share a Find' Above to add one!</p>
 
         <article class="container-fluid post" th:each="post : ${posts}">
-            <a th:href="'/posts/viewpost/' + ${post.id}"><h2 th:text="${post.title}"></h2></a>
-            <img th:src="${post.imgUrl}" src="" class="img-responsive img-rounded" />
-            <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
-            <span th:text="${post.timeStamp}"></span>
+
+            <div class="row">
+
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <h2><a th:href="@{'/posts/viewpost/' + ${post.id}}" th:text="${post.title}"></a></h2>
+                </div>
+
+                <div class="cells">
+                    <div class="col-lg-5 post-cell-left">
+                        <img th:src="${post.imgUrl}" src="" class="img-responsive img-rounded" />
+                    </div>
+
+                    <div class="col-lg-5 text-center post-cell-right">
+                        <h3 th:text="'Found by ' + ${post.author.username}"></h3>
+                        <p class="lead" th:text="'Location: ' + ${post.location}"></p>
+                        <p class="lead" th:text="'Posted at: ' + ${post.timeStamp}"></p>
+                        <p th:text="${post.getComments().size()} + ' comments'"></p>
+                    </div>
+                </div>
+            </div>
+
         </article>
 
         <nav aria-label="...">
