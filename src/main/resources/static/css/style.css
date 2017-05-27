@@ -19,6 +19,12 @@ body {
     background-color:#617CAD;
 }
 
+.center-block {
+    display: table;
+    margin: 0 auto;
+    float: none;
+}
+
 .page-body {
     background-color:#E4F8F6;
     font-family:'Lato', sans-serif;
@@ -32,8 +38,16 @@ body {
     border-radius:0px;
 }
 
-.nav .navbar-nav li a {
+.nav.navbar-nav li a {
     color:#E4F8F6;
+}
+
+.navbar-header .navbar-brand {
+    color:#B4E4DF;
+}
+
+.navbar-header .navbar-brand:hover {
+    color:#B4E4DF;
 }
 
 .nav-emphasis {
