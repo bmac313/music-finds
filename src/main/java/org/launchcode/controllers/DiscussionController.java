@@ -167,7 +167,12 @@ public class DiscussionController {
 
         model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
+        int userId = Integer.parseInt(userIdCookie);
+        User author = userDao.findOne(userId);
+
+        comment.setAuthor(author);
         discussion.addComment(comment);
+
         discussionDao.save(discussion);
 
         model.addAttribute("title", discussion.getTitle() + " - MusicFinds");
