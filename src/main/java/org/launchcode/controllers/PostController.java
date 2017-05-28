@@ -7,7 +7,6 @@ import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.PostDao;
 import org.launchcode.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -111,9 +110,16 @@ public class PostController {
 
     @RequestMapping(value = "viewpost/{id}", method = RequestMethod.GET)
     public String viewPost(@PathVariable(value = "id") int id,
-                           @CookieValue("id") String userIdCookie, Model model) {
+                           @CookieValue("id") String userIdCookie,
+                           @CookieValue("password") String passwordCookie,
+                           Model model) {
 
         Post post = postDao.findOne(id);
+
+        // If the user is not logged in, hide the comment box.
+        if (userIdCookie.equals("") && passwordCookie.equals("")) {
+            model.addAttribute("visibilityComments", "hidden");
+        }
 
         model.addAttribute("title", "View Post - MusicFinds");
         model.addAttribute("post", post);
@@ -129,6 +135,7 @@ public class PostController {
     public String addCommentToPost(@ModelAttribute @Valid Comment comment,
                                    Errors errors,
                                    @PathVariable(value = "id") int id,
+                                   @CookieValue("id") String userIdCookie,
                                    Model model) {
 
         Post post = postDao.findOne(id);
@@ -145,7 +152,12 @@ public class PostController {
             return "posts/view-post";
         }
 
+        int userId = Integer.parseInt(userIdCookie);
+        User author = userDao.findOne(userId);
+
+        comment.setAuthor(author);
         post.addComment(comment);
+
         postDao.save(post);
 
         model.addAttribute("title", "View Post - MusicFinds");

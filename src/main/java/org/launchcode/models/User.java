@@ -22,11 +22,11 @@ public class User {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private List<UserSubmission> submissions;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     private List<Comment> comments;
 
 
