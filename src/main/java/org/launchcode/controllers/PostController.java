@@ -33,10 +33,14 @@ public class PostController {
     public String index(Model model,
                         @RequestParam(defaultValue = "1") int page,
                         @RequestParam(defaultValue = "false") boolean justLoggedIn,
-                        @RequestParam(defaultValue = "false") boolean justSignedUp) {
+                        @RequestParam(defaultValue = "false") boolean justSignedUp,
+                        @CookieValue("id") String userIdCookie,
+                        @CookieValue("password") String passwordCookie) {
 
         PageRequest pageRequest = new PageRequest(page-1, 5, Sort.Direction.DESC, "timeStamp");
         int pages = postDao.findAll(pageRequest).getTotalPages();
+
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         if (justLoggedIn) {
             model.addAttribute("alertClass", "alert alert-success");
@@ -74,6 +78,8 @@ public class PostController {
             return "redirect:/login?loginPrompt=true";
         }
 
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
         model.addAttribute("title", "Share a Find - MusicFinds");
         model.addAttribute("header", "Share a Find");
         model.addAttribute(new Post());
@@ -86,9 +92,13 @@ public class PostController {
     @RequestMapping(value = "newpost", method = RequestMethod.POST)
     public String handleNewPostSubmission(@Valid @ModelAttribute Post postToAdd,
                                           Errors errors,
-                                          @CookieValue("id") String userIdCookie, Model model) {
+                                          @CookieValue("id") String userIdCookie,
+                                          @CookieValue("password") String passwordCookie,
+                                          Model model) {
 
         if (errors.hasErrors()) {
+
+            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
             model.addAttribute("title", "Share a Find - MusicFinds");
             model.addAttribute("header", "Share a Find");
@@ -115,6 +125,7 @@ public class PostController {
                            Model model) {
 
         Post post = postDao.findOne(id);
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         // If the user is not logged in, hide the comment box.
         if (userIdCookie.equals("") && passwordCookie.equals("")) {
@@ -136,11 +147,14 @@ public class PostController {
                                    Errors errors,
                                    @PathVariable(value = "id") int id,
                                    @CookieValue("id") String userIdCookie,
+                                   @CookieValue("password") String passwordCookie,
                                    Model model) {
 
         Post post = postDao.findOne(id);
 
         if (errors.hasErrors()) {
+
+            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
             model.addAttribute("title", post.getTitle() + " - MusicFinds");
             model.addAttribute("post", post);
@@ -151,6 +165,8 @@ public class PostController {
 
             return "posts/view-post";
         }
+
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         int userId = Integer.parseInt(userIdCookie);
         User author = userDao.findOne(userId);
@@ -168,6 +184,22 @@ public class PostController {
         model.addAttribute("findsActiveStatus", "active");
 
         return "posts/view-post";
+    }
+
+    private Model setNavItemVisibility(Model model, String userIdCookie, String passwordCookie) {
+
+        // If the user is logged in, add their username to the model, and hide the Log In nav item.
+        if (!userIdCookie.isEmpty() && !passwordCookie.isEmpty()) {
+            int userId = Integer.parseInt(userIdCookie);
+            String username = userDao.findOne(userId).getUsername();
+            model.addAttribute("loggedInUser", username);
+            model.addAttribute("visibilityLogIn", "hidden");
+        } else { // If not, hide the username display and Log Out nav item.
+            model.addAttribute("visibilityUsernameDisplay", "hidden");
+            model.addAttribute("visibilityLogOut", "hidden");
+        }
+
+        return model;
     }
 
 }

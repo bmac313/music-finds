@@ -15,7 +15,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.nio.channels.Pipe;
 
 @Controller
 @RequestMapping(value = "discussions")
@@ -31,10 +30,14 @@ public class DiscussionController {
     private UserDao userDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model, @RequestParam(defaultValue = "1") int page) {
+    public String index(@CookieValue("id") String userIdCookie,
+                        @CookieValue("password") String passwordCookie,
+                        Model model, @RequestParam(defaultValue = "1") int page) {
 
         PageRequest pageRequest = new PageRequest(page-1, 5, Sort.Direction.DESC, "timeStamp");
         int pages = discussionDao.findAll(pageRequest).getTotalPages();
+
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         if ((page-1) <= 0) {
             model.addAttribute("visibilityPrev", "hidden");
@@ -66,6 +69,8 @@ public class DiscussionController {
             return "redirect:/login?loginPrompt=true";
         }
 
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
         model.addAttribute("title", "New Discussion Topic - MusicFinds");
         model.addAttribute("header", "New Discussion Topic");
         model.addAttribute(new Discussion());
@@ -81,9 +86,13 @@ public class DiscussionController {
     @RequestMapping(value = "newtopic", method = RequestMethod.POST)
     public String processNewDiscussionForm(@ModelAttribute @Valid Discussion newDiscussion,
                                            Errors errors,
-                                           @CookieValue("id") String userIdCookie, Model model) {
+                                           @CookieValue("id") String userIdCookie,
+                                           @CookieValue("password") String passwordCookie,
+                                           Model model) {
 
         if (errors.hasErrors()) {
+            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
             model.addAttribute("title", "New Discussion Topic - MusicFinds");
             model.addAttribute("header", "New Discussion Topic");
 
@@ -107,9 +116,14 @@ public class DiscussionController {
     }
 
     @RequestMapping(value = "viewtopic/{id}", method = RequestMethod.GET)
-    public String viewDiscussion(@PathVariable(value = "id") int id, Model model) {
+    public String viewDiscussion(@PathVariable(value = "id") int id,
+                                 @CookieValue("id") String userIdCookie,
+                                 @CookieValue("password") String passwordCookie,
+                                 Model model) {
 
         Discussion discussion = discussionDao.findOne(id);
+
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         model.addAttribute("title", discussion.getTitle() + " - MusicFinds");
         model.addAttribute("discussion", discussion);
@@ -128,11 +142,15 @@ public class DiscussionController {
     public String addCommentToDiscussion(@Valid @ModelAttribute Comment comment,
                                          Errors errors,
                                          @PathVariable(value = "id") int id,
+                                         @CookieValue("id") String userIdCookie,
+                                         @CookieValue("password") String passwordCookie,
                                          Model model) {
 
         Discussion discussion = discussionDao.findOne(id);
 
         if (errors.hasErrors()) {
+
+            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
             model.addAttribute("title", discussion.getTitle() + " - MusicFinds");
             model.addAttribute("discussion", discussion);
@@ -146,6 +164,8 @@ public class DiscussionController {
 
             return "discussions/view-discussion";
         }
+
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         discussion.addComment(comment);
         discussionDao.save(discussion);
@@ -162,6 +182,22 @@ public class DiscussionController {
 
         return "discussions/view-discussion";
 
+    }
+
+    private Model setNavItemVisibility(Model model, String userIdCookie, String passwordCookie) {
+
+        // If the user is logged in, add their username to the model, and hide the Log In nav item.
+        if (!userIdCookie.isEmpty() && !passwordCookie.isEmpty()) {
+            int userId = Integer.parseInt(userIdCookie);
+            String username = userDao.findOne(userId).getUsername();
+            model.addAttribute("loggedInUser", username);
+            model.addAttribute("visibilityLogIn", "hidden");
+        } else { // If not, hide the username display and Log Out nav item.
+            model.addAttribute("visibilityUsernameDisplay", "hidden");
+            model.addAttribute("visibilityLogOut", "hidden");
+        }
+
+        return model;
     }
 
 }

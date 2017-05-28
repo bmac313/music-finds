@@ -24,9 +24,12 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String showLoginForm(@RequestParam(defaultValue = "false") boolean loggedOut,
                                 @RequestParam(defaultValue = "false") boolean loginPrompt,
+                                @CookieValue("id") String userIdCookie,
+                                @CookieValue("password") String passwordCookie,
                                 Model model) {
 
         LoginForm loginForm = new LoginForm();
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         if (loggedOut) {
             model.addAttribute("logOutConfirm", "You have been logged out successfully!");
@@ -49,8 +52,14 @@ public class UserController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String logInUser(@ModelAttribute(name = "login") @Valid LoginForm loginForm,
-                            Errors errors, Model model, HttpServletResponse response) {
+                            Errors errors,
+                            Model model,
+                            @CookieValue("id") String userIdCurrent,
+                            @CookieValue("password") String passwordCurrent,
+                            HttpServletResponse response) {
+
         if (errors.hasErrors()) {
+            model = setNavItemVisibility(model, userIdCurrent, passwordCurrent);
             model.addAttribute("title", "Log In - MusicFinds");
             model.addAttribute("header", "Log in to your account");
 
@@ -81,6 +90,8 @@ public class UserController {
 
         //If the username or password does not match the database, create an error and return to the login form.
 
+        model = setNavItemVisibility(model, userIdCurrent, passwordCurrent);
+
         model.addAttribute("title", "Log In - MusicFinds");
         model.addAttribute("header", "Log in to your account");
         model.addAttribute("wrongLoginInfoError", "Incorrect username or password.");
@@ -91,7 +102,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "signup", method = RequestMethod.GET)
-    public String showSignupForm(Model model) {
+    public String showSignupForm(@CookieValue("id") String userIdCookie,
+                                 @CookieValue("password") String passwordCookie,
+                                 Model model) {
+
+        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
         model.addAttribute("title", "Sign Up - MusicFinds");
         model.addAttribute("header", "Create an account");
         model.addAttribute(new User());
@@ -104,9 +120,14 @@ public class UserController {
     @RequestMapping(value = "signup", method = RequestMethod.POST)
     public String signupUser(@ModelAttribute @Valid User newUser,
                              Errors errors,
-                             @RequestParam String passwordConfirm, Model model) {
+                             @RequestParam String passwordConfirm,
+                             @CookieValue("id") String userIdCookie,
+                             @CookieValue("password") String passwordCookie,
+                             Model model) {
 
         if (errors.hasErrors()) {
+            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
             model.addAttribute("signupActiveStatus", "active");
@@ -116,6 +137,8 @@ public class UserController {
 
         // If the passwords do not match, create an error and return to the signup form.
         if (!passwordConfirm.equals(newUser.getPassword())) {
+            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
             model.addAttribute("signupActiveStatus", "active");
@@ -128,6 +151,8 @@ public class UserController {
            database, create an error and return to the signup form.*/
         for (User existingUser : userDao.findAll()) {
             if (newUser.getUsername().equals(existingUser.getUsername())) {
+                model = setNavItemVisibility(model, userIdCookie, passwordCookie);
+
                 model.addAttribute("title", "Sign Up - MusicFinds");
                 model.addAttribute("header", "Create an account");
                 model.addAttribute("signupActiveStatus", "active");
@@ -162,5 +187,21 @@ public class UserController {
         }
 
         return "redirect:/login?loggedOut=true";
+    }
+
+    private Model setNavItemVisibility(Model model, String userIdCookie, String passwordCookie) {
+
+        // If the user is logged in, add their username to the model, and hide the Log In nav item.
+        if (!userIdCookie.isEmpty() && !passwordCookie.isEmpty()) {
+            int userId = Integer.parseInt(userIdCookie);
+            String username = userDao.findOne(userId).getUsername();
+            model.addAttribute("loggedInUser", username);
+            model.addAttribute("visibilityLogIn", "hidden");
+        } else { // If not, hide the username display and Log Out nav item.
+            model.addAttribute("visibilityUsernameDisplay", "hidden");
+            model.addAttribute("visibilityLogOut", "hidden");
+        }
+
+        return model;
     }
 }
