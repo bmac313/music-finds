@@ -15,8 +15,10 @@
         <article class="container post">
             <h2 th:text="${post.title}"></h2>
             <img th:src="${post.imgUrl}" src="" style="max-width:70%;" />
-            <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
-            <span th:text="${post.timeStamp}"></span>
+            <div class="post-signature">
+                <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
+                <span th:text="${post.timeStamp}"></span>
+            </div>
         </article>
 
         <form th:class="${visibilityComments}" th:object="${comment}" method="post">
@@ -27,7 +29,7 @@
                 <span th:errors="*{text}" class="text-danger"></span>
             </div>
 
-            <input type="submit" />
+            <input class="btn-primary" type="submit" />
 
         </form>
 

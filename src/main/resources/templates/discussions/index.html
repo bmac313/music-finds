@@ -17,8 +17,11 @@
         <p th:unless="${discussions} and ${discussions.getSize()}">There are currently no discussions. Click 'Start a Discussion' Above to add one!</p>
         <article class="container post" th:each="discussion : ${discussions}">
             <a th:href="'/discussions/viewtopic/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
-            <p th:text="'Posted by ' + ${discussion.author.username}"></p>
-            <span th:text="${discussion.timeStamp}"></span>
+            <div class="post-signature">
+                <p th:text="'Posted by ' + ${discussion.author.username}"></p>
+                <p th:text="${discussion.timeStamp}"></p>
+                <p th:text="${discussion.getComments().size()} + ' comments'"></p>
+            </div>
         </article>
     </main>
 

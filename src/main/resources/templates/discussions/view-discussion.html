@@ -15,24 +15,26 @@
         <article class="container post">
             <h2 th:text="${discussion.title}"></h2>
             <p th:text="${discussion.postBody}"></p>
-            <p th:text="'Posted by ' + ${discussion.author.username}"></p>
-            <span th:text="${discussion.timeStamp}"></span>
+            <div class="post-signature">
+                <p th:text="'Posted by ' + ${discussion.author.username}"></p>
+                <span th:text="${discussion.timeStamp}"></span>
+            </div>
         </article>
 
         <form th:object="${comment}" method="post">
 
             <div class="input-group">
-                <label th:for="text">Comment</label>
-                <textarea th:field="*{text}" class="form-control"></textarea>
+                <label th:for="text">Write a Comment</label>
+                <textarea class="form-control" th:field="*{text}"></textarea>
                 <span th:errors="*{text}" class="text-danger"></span>
             </div>
 
-            <input type="submit" />
+            <input class="btn-primary" type="submit" />
 
         </form>
 
         <article class="container comment" th:each="comment : ${comments}">
-            <h6 th:text="${comment.author}"></h6>
+            <h6 th:text="${comment.author.username}"></h6>
             <p th:text="${comment.text}"></p>
         </article>
 
