@@ -75,6 +75,10 @@ body {
     font-family:'Lato Light', sans-serif;
 }
 
+p.body-text {
+    font-family:'Lato Regular', sans-serif;
+}
+
 .post-cell-right p, .post-signature p {
     color:#FFD382;
 }
