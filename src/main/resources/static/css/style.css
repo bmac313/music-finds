@@ -83,6 +83,7 @@ body {
     background-color:#DC8D52;
     box-shadow:0px 10px 0px #FFB782;
     margin-bottom: 15px;
+    width:50%;
 }
 
 .pager li a {
