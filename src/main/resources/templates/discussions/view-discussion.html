@@ -12,16 +12,16 @@
 
     <main class="container">
 
-        <article class="container post">
+        <article class="post">
             <h2 th:text="${discussion.title}"></h2>
             <p th:text="${discussion.postBody}"></p>
             <div class="post-signature">
                 <p th:text="'Posted by ' + ${discussion.author.username}"></p>
-                <span th:text="${discussion.timeStamp}"></span>
+                <p th:text="${discussion.timeStamp}"></p>
             </div>
         </article>
 
-        <form th:object="${comment}" method="post">
+        <form th:class="${visibilityCommentBox}" th:object="${comment}" method="post">
 
             <div class="input-group">
                 <label th:for="text">Write a Comment</label>

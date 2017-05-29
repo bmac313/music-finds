@@ -15,8 +15,10 @@
         <a class="btn btn-primary" th:href="@{/discussions/newtopic}">Start a Discussion</a>
 
         <p th:unless="${discussions} and ${discussions.getSize()}">There are currently no discussions. Click 'Start a Discussion' Above to add one!</p>
-        <article class="container post" th:each="discussion : ${discussions}">
-            <a th:href="'/discussions/viewtopic/' + ${discussion.id}"><h3 th:text="${discussion.title}"></h3></a>
+        <article class="post" th:each="discussion : ${discussions}">
+            <h3>
+                <a th:href="'/discussions/viewtopic/' + ${discussion.id}" th:text="${discussion.title}"></a>
+            </h3>
             <div class="post-signature">
                 <p th:text="'Posted by ' + ${discussion.author.username}"></p>
                 <p th:text="${discussion.timeStamp}"></p>
