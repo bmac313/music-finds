@@ -125,6 +125,10 @@ public class DiscussionController {
 
         model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
+        if (userIdCookie.isEmpty() || passwordCookie.isEmpty()) {
+            model.addAttribute("visibilityCommentBox", "hidden");
+        }
+
         model.addAttribute("title", discussion.getTitle() + " - MusicFinds");
         model.addAttribute("discussion", discussion);
         model.addAttribute(new Comment());
