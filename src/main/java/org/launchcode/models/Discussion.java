@@ -12,7 +12,7 @@ import java.util.List;
 public class Discussion extends UserSubmission {
 
     @NotNull
-    @Size(min = 1, message = "The post body cannot be empty.")
+    @Size(min = 1, max = 10000, message = "The post body must be between 1 and 10,000 characters.")
     private String postBody;
 
     @OneToMany(cascade = CascadeType.ALL)

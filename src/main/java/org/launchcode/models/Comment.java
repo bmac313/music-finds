@@ -15,7 +15,7 @@ public class Comment {
     private int id;
 
     @NotNull
-    @Size(min = 1, message = "The comment body cannot be empty.")
+    @Size(min = 1, max = 10000, message = "Comment text cannot be empty or more than 10,000 characters.")
     private String text;
 
     @ManyToOne

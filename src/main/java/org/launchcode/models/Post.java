@@ -12,11 +12,11 @@ import java.util.List;
 public class Post extends UserSubmission{
 
     @NotNull
-    @Size(min = 1, message = "Please provide a location for your Find.")
+    @Size(min = 1, max = 255, message = "Please provide a location for your Find (255 characters or less).")
     private String location;
 
     @NotNull
-    @Size(min = 1, message = "Please provide a link to your image.")
+    @Size(min = 1, max = 255, message = "Please provide a link to your image (255 characters or less).")
     private String imgUrl;
 
     @OneToMany(cascade = CascadeType.ALL)
