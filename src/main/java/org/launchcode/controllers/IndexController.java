@@ -13,14 +13,12 @@ public class IndexController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpServletResponse response) {
-        // Set up blank cookies if they do not already exist.
-        if (request.getCookies() == null) {
-            Cookie userIdCookie = new Cookie("id", "");
-            Cookie passwordCookie = new Cookie("password", "");
+        // Set up blank cookies.
+        Cookie userIdCookie = new Cookie("id", "");
+        Cookie passwordCookie = new Cookie("password", "");
 
-            response.addCookie(userIdCookie);
-            response.addCookie(passwordCookie);
-        }
+        response.addCookie(userIdCookie);
+        response.addCookie(passwordCookie);
 
         return "redirect:posts";
     }
