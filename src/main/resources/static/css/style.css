@@ -102,3 +102,7 @@ p.body-text {
     background-color:#53A39A;
     color:#338980;
 }
+
+.inline {
+    display:inline;
+}
