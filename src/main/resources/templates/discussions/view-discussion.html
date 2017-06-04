@@ -23,10 +23,16 @@
 
         <form th:class="${visibilityCommentBox}" th:object="${comment}" method="post">
 
-            <div class="input-group">
-                <label th:for="text">Write a Comment</label>
-                <textarea class="form-control" th:field="*{text}"></textarea>
-                <span th:errors="*{text}" class="text-danger"></span>
+            <div class="form-group">
+                <div class="row">
+                    <label th:for="text" class="col-sm-3 col-form-label">Write a Comment</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <textarea class="form-control" th:field="*{text}"></textarea>
+                    </div>
+                    <span th:errors="*{text}" class="text-danger col-sm-3"></span>
+                </div>
             </div>
 
             <input class="btn-primary" type="submit" />

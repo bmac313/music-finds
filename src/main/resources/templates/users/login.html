@@ -20,16 +20,20 @@
 
         <form th:object="${login}" method="post">
 
-            <div class="input-group">
-                <label th:for="username">Username*</label>
-                <input th:field="*{username}" class="form-control" placeholder="yourusername13" />
-                <span th:errors="*{username}" class="text-danger"></span>
+            <div class="form-group row">
+                <label th:for="username" class="col-sm-2 col-form-label">Username*</label>
+                <div class="col-sm-7">
+                    <input th:field="*{username}" class="form-control input-lg" placeholder="yourusername13" />
+                </div>
+                <span th:errors="*{username}" class="text-danger col-sm-3"></span>
             </div>
 
-            <div class="input-group">
-                <label th:for="password">Password*</label>
-                <input th:field="*{password}" type="password" class="form-control" placeholder="***********" />
-                <span th:errors="*{password}" class="text-danger"></span>
+            <div class="form-group row">
+                <label th:for="password" class="col-sm-2 col-form-label">Password*</label>
+                <div class="col-sm-7">
+                    <input th:field="*{password}" type="password" class="form-control input-lg" placeholder="***********" />
+                </div>
+                <span th:errors="*{password}" class="text-danger col-sm-3"></span>
             </div>
 
             <input type="submit" value="Log In" class="btn btn-primary" />

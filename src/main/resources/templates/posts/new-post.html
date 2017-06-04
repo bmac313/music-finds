@@ -15,28 +15,67 @@
         <p>Fields marked with an asterisk (*) are required.</p>
         <form th:object="${post}" method="post">
 
-            <div class="input-group">
-                <label th:for="title">Post Title*</label>
-                <input th:field="*{title}" class="form-control" />
-                <span th:errors="*{title}" class="text-danger"></span>
+            <div class="form-group row">
+                <label th:for="title" class="col-sm-2 col-form-label">Post Title*</label>
+                <div class="col-sm-7">
+                    <input th:field="*{title}" class="form-control input-lg" />
+                </div>
+                <span th:errors="*{title}" class="text-danger col-sm-3"></span>
             </div>
 
-            <div class="input-group">
-                <label th:for="imgUrl">Photo URL*</label>
-                <input th:field="*{imgUrl}" class="form-control" />
-                <a href="#" data-toggle="tooltip" title="Upload your image to an image host (such as imgur) then paste the direct link to it here.">
-                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                </a>
-                <span th:errors="*{imgUrl}" class="text-danger"></span>
+            <div class="form-group row">
+                <label th:for="imgUrl"  class="col-sm-2 col-form-label">Photo URL*
+                    <a href="#" data-toggle="tooltip" title="Upload your image to an image host (such as imgur) then paste the direct link to it here.">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                    </a>
+                </label>
+                <div class="col-sm-7">
+                    <input th:field="*{imgUrl}" class="form-control input-lg" />
+                </div>
+                <span th:errors="*{imgUrl}" class="text-danger col-sm-3"></span>
             </div>
 
-            <div class="input-group">
-                <label th:for="location">Location*</label>
-                <input th:field="*{location}" class="form-control" />
-                <a href="#" data-toggle="tooltip" title="Enter the name and address of the location where you found the item.">
-                    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-                </a>
-                <span th:errors="*{location}" class="text-danger"></span>
+            <div class="form-group row">
+                <label th:for="location" class="col-sm-2 col-form-label">Location*
+                    <a href="#" data-toggle="tooltip" title="Enter the name of the location where you found the item.">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                    </a>
+                </label>
+                <div class="col-sm-7">
+                    <input th:field="*{location}" class="form-control input-lg" />
+                </div>
+                <span th:errors="*{location}" class="text-danger col-sm-3"></span>
+            </div>
+
+            <div class="form-group row">
+                <label th:for="address" class="col-sm-2 col-form-label">Address*
+                    <a href="#" data-toggle="tooltip" title="Enter the address of the location.">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                    </a>
+                </label>
+                <div class="col-sm-7">
+                    <input th:field="*{address}" class="form-control input-lg" />
+                </div>
+                <span th:errors="*{address}" class="text-danger col-sm-3"></span>
+            </div>
+
+            <div class="form-group row">
+                <label th:field="city" class="col-sm-2 col-form-label">City*</label>
+                <div class="col-sm-7">
+                    <input th:field="*{city}" class="form-control input-lg" />
+                </div>
+                <span th:errors="*{city}" class="text-danger col-sm-3"></span>
+            </div>
+
+            <div class="form-group row">
+                <label th:field="state" class="col-sm-2 col-form-label">State*</label>
+                <div class="col-sm-7">
+                    <select th:field="*{state}" class="form-control input-lg">
+                        <option value="">-Choose a state below-</option>
+                        <option th:each="state : ${states}" th:text="${state}" th:value="${state}"></option>
+                    </select>
+                </div>
+                <span th:errors="*{state}" class="text-danger col-sm-3"></span>
             </div>
 
             <input type="submit" value="Post" class="btn btn-primary" />
