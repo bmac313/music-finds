@@ -33,7 +33,7 @@
 
                     <div class="col-lg-5 col-md-5 text-center post-cell-right">
                         <h3 th:text="'Found by ' + ${post.author.username}"></h3>
-                        <p class="lead" th:text="'Location: ' + ${post.location}"></p>
+                        <p class="lead" th:text="'Location: ' + ${post.location} + ', ' + ${post.address} + ', ' + ${post.city} + ', ' + ${post.state}"></p>
                         <p class="lead" th:text="'Posted at: ' + ${post.timeStamp}"></p>
                         <p th:text="${post.getComments().size()} + ' comments'"></p>
                     </div>
