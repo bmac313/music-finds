@@ -6,6 +6,7 @@ import org.launchcode.models.User;
 import org.launchcode.models.data.CommentDao;
 import org.launchcode.models.data.PostDao;
 import org.launchcode.models.data.UserDao;
+import org.launchcode.models.enums.States;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -82,6 +83,7 @@ public class PostController {
 
         model.addAttribute("title", "Share a Find - MusicFinds");
         model.addAttribute("header", "Share a Find");
+        model.addAttribute("states", States.values());
         model.addAttribute(new Post());
 
         model.addAttribute("findsActiveStatus", "active");
@@ -102,6 +104,7 @@ public class PostController {
 
             model.addAttribute("title", "Share a Find - MusicFinds");
             model.addAttribute("header", "Share a Find");
+            model.addAttribute("states", States.values());
 
             model.addAttribute("findsActiveStatus", "active");
 

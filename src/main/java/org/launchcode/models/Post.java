@@ -16,6 +16,18 @@ public class Post extends UserSubmission{
     private String location;
 
     @NotNull
+    @Size(min = 1, max = 255, message = "Please provide an address for your Find (255 characters or less).")
+    private String address;
+
+    @NotNull
+    @Size(min = 1, max = 255, message = "Please enter a city.")
+    private String city;
+
+    @NotNull
+    @Size(min = 1, message = "Please select a state.")
+    private String state;
+
+    @NotNull
     @Size(min = 1, max = 255, message = "Please provide a link to your image (255 characters or less).")
     private String imgUrl;
 
@@ -25,9 +37,12 @@ public class Post extends UserSubmission{
 
     public Post() {}
 
-    public Post(String location, String imgUrl, String description) {
+    public Post(String location, String address, String city, String state, String imgUrl) {
         super();
         this.location = location;
+        this.address = address;
+        this.city = city;
+        this.state = state;
         this.imgUrl = imgUrl;
     }
 
@@ -45,6 +60,30 @@ public class Post extends UserSubmission{
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public List<Comment> getComments() {
