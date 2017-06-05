@@ -106,3 +106,8 @@ p.body-text {
 .inline {
     display:inline;
 }
+
+.navbar-form {
+    margin:0px;
+    padding-top:3px;
+}
