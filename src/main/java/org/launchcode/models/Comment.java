@@ -26,9 +26,6 @@ public class Comment {
     @ManyToOne
     private Post post;               // This field describes which post the comment was made on
 
-    @ManyToOne
-    private Discussion discussion;   // This field describes which discussion the comment was made on
-
 
     public Comment() {
         this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
