@@ -16,7 +16,8 @@
             <h2 th:text="${post.title}"></h2>
             <img th:src="${post.imgUrl}" src="" style="max-width:70%;" />
             <div class="post-signature">
-                <p th:text="'Found at ' + ${post.location} + ' by ' + ${post.author.username}"></p>
+                <p th:text="'Found at ' + ${post.location} + ', ' + ${post.address} + ', ' + ${post.city} + ', ' + ${post.state} + ' by ' + ${post.author.username}"></p>
+                <p th:text="'Album: ' + ${post.album}"></p>
                 <span th:text="${post.timeStamp}"></span>
             </div>
         </article>

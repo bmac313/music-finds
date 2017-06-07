@@ -24,6 +24,18 @@
             </div>
 
             <div class="form-group row">
+                <label th:for="album" class="col-sm-2 col-form-label">Album Title*
+                    <a href="#" data-toggle="tooltip" title="What album are you showing in this post? (e.g.: The Beatles - Revolver)">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                    </a>
+                </label>
+                <div class="col-sm-7">
+                    <input th:field="*{album}" class="form-control input-lg" />
+                </div>
+                <span th:errors="*{album}" class="text-danger col-sm-3"></span>
+            </div>
+
+            <div class="form-group row">
                 <label th:for="imgUrl"  class="col-sm-2 col-form-label">Photo URL*
                     <a href="#" data-toggle="tooltip" title="Upload your image to an image host (such as imgur) then paste the direct link to it here.">
                         <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>

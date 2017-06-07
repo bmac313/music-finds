@@ -6,10 +6,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Post extends UserSubmission{
+
+    @NotNull
+    @Size(min = 1, max = 255, message = "Please specify an album title.")
+    private String album;
 
     @NotNull
     @Size(min = 1, max = 255, message = "Please provide a location for your Find (255 characters or less).")
@@ -37,13 +42,22 @@ public class Post extends UserSubmission{
 
     public Post() {}
 
-    public Post(String location, String address, String city, String state, String imgUrl) {
+    public Post(String album, String location, String address, String city, String state, String imgUrl) {
         super();
+        this.album = album;
         this.location = location;
         this.address = address;
         this.city = city;
         this.state = state;
         this.imgUrl = imgUrl;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
     }
 
     public String getImgUrl() {
@@ -96,6 +110,18 @@ public class Post extends UserSubmission{
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    // This method returns a list of the fields searched by default using the search feature.
+    public List<String> getStandardSearchFields() {
+        List<String> fields = new ArrayList<>();
+        fields.add(this.getTitle());
+        fields.add(this.album);
+        fields.add(this.location);
+        fields.add(this.address);
+        fields.add(this.city);
+
+        return fields;
     }
 
 }
