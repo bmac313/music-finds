@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
-</head>
+<head th:replace="fragments :: head"></head>
+
 <body>
 
+<div class="container page-body">
+
+    <header>
+        <nav th:replace="fragments :: navigation-main"></nav>
+    </header>
+
+    <main class="container">
+
+        <h1 th:unless="${results} and ${results.size()}" th:text="'Whoops!'"></h1>
+        <p th:unless="${results} and ${results.size()}" class="lead" th:text="'No results found for ' + ${searchTerm} + '. Make sure your search term is spelled correctly.'"></p>
+
+        <article class="post" th:each="result : ${results}">
+
+            <h2>
+                <a th:href="@{'/posts/viewpost/' + ${result.id}}" th:text="${result.title}"></a>
+            </h2>
+
+            <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 post-cell-left">
+                    <img src="" th:src="${result.imgUrl}" class="img-responsive img-thumbnail" />
+                </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-7 text-center post-cell-right">
+                    <p class="lead" th:text="'Location: ' + ${result.location} + ', ' + ${result.address} + ', ' + ${result.city} + ', ' + ${result.state}"></p>
+                    <p class="lead" th:text="'Album: ' + ${result.album}"></p>
+                    <p class="lead" th:text="'Posted at: ' + ${result.timeStamp}"></p>
+                </div>
+
+            </div>
+        </article>
+
+    </main>
+
+    <nav aria-label="...">
+        <ul class="pager">
+            <li><a th:href="@{'/search?searchTerm=' + ${searchTerm} + '&amp;page=' + ${page - 1}}" th:class="${visibilityPrev}">Previous Page</a></li>
+            <li><a th:href="@{'/search?searchTerm=' + ${searchTerm} + '&amp;page=' + ${page + 1}}" th:class="${visibilityNext}">Next Page</a></li>
+        </ul>
+    </nav>
+
+</div>
+
 </body>
+
 </html>
