@@ -9,5 +9,5 @@ Description:
 Important Notes:
 * <strong>There is currently a bug</strong> where visiting any page directly before the site creates a user cookie causes an exception.
 This cookie is created when you visit the site's root, so <strong>make sure to do this</strong> if you want to see how this site works.
-Fortunately, I am working on overhauling the login system to a Spring Security based one; once that is implemented, this
+Fortunately, I am working on updating the login system to use the Twitter API instead; once that is implemented, this
 problem should be a thing of the past.
