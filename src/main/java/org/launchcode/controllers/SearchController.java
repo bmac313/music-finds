@@ -28,8 +28,8 @@ public class SearchController {
     @RequestMapping(value = "")
     public String index(@RequestParam String searchTerm,
                         @RequestParam(defaultValue = "1") int page,
-                        @CookieValue("id") String userIdCookie,
-                        @CookieValue("password") String passwordCookie,
+                        @CookieValue(name = "id", required = false) String userIdCookie,
+                        @CookieValue(name = "password", required = false) String passwordCookie,
                         Model model) {
 
         PageRequest pageRequest = new PageRequest(page-1, 5, Sort.Direction.DESC, "timeStamp");
@@ -45,8 +45,6 @@ public class SearchController {
 
         List<Post> searchResults = new ArrayList<>();
         Iterable<Post> posts = postDao.findAll(pageRequest);
-
-        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         for (Post post : posts) {
 
@@ -66,21 +64,5 @@ public class SearchController {
         model.addAttribute("page", page);
 
         return "search/search-results";
-    }
-
-    private Model setNavItemVisibility(Model model, String userIdCookie, String passwordCookie) {
-
-        // If the user is logged in, add their username to the model, and hide the Log In nav item.
-        if (!userIdCookie.isEmpty() && !passwordCookie.isEmpty()) {
-            int userId = Integer.parseInt(userIdCookie);
-            String username = userDao.findOne(userId).getUsername();
-            model.addAttribute("loggedInUser", username);
-            model.addAttribute("visibilityLogIn", "hidden");
-        } else { // If not, hide the username display and Log Out nav item.
-            model.addAttribute("visibilityUsernameDisplay", "hidden");
-            model.addAttribute("visibilityLogOut", "hidden");
-        }
-
-        return model;
     }
 }
