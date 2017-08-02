@@ -24,12 +24,11 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String showLoginForm(@RequestParam(defaultValue = "false") boolean loggedOut,
                                 @RequestParam(defaultValue = "false") boolean loginPrompt,
-                                @CookieValue("id") String userIdCookie,
-                                @CookieValue("password") String passwordCookie,
+                                @CookieValue(name = "id", required = false) String userIdCookie,
+                                @CookieValue(name = "password", required = false) String passwordCookie,
                                 Model model) {
 
         LoginForm loginForm = new LoginForm();
-        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         if (loggedOut) {
             model.addAttribute("logOutConfirm", "You have been logged out successfully!");
@@ -54,12 +53,11 @@ public class UserController {
     public String logInUser(@ModelAttribute(name = "login") @Valid LoginForm loginForm,
                             Errors errors,
                             Model model,
-                            @CookieValue("id") String userIdCurrent,
-                            @CookieValue("password") String passwordCurrent,
+                            @CookieValue(name = "id", required = false) String userIdCurrent,
+                            @CookieValue(name = "password", required = false) String passwordCurrent,
                             HttpServletResponse response) {
 
         if (errors.hasErrors()) {
-            model = setNavItemVisibility(model, userIdCurrent, passwordCurrent);
             model.addAttribute("title", "Log In - MusicFinds");
             model.addAttribute("header", "Log in to your account");
 
@@ -90,8 +88,6 @@ public class UserController {
 
         //If the username or password does not match the database, create an error and return to the login form.
 
-        model = setNavItemVisibility(model, userIdCurrent, passwordCurrent);
-
         model.addAttribute("title", "Log In - MusicFinds");
         model.addAttribute("header", "Log in to your account");
         model.addAttribute("wrongLoginInfoError", "Incorrect username or password.");
@@ -102,11 +98,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "signup", method = RequestMethod.GET)
-    public String showSignupForm(@CookieValue("id") String userIdCookie,
-                                 @CookieValue("password") String passwordCookie,
+    public String showSignupForm(@CookieValue(name = "id", required = false) String userIdCookie,
+                                 @CookieValue(name = "password", required = false) String passwordCookie,
                                  Model model) {
-
-        model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
         model.addAttribute("title", "Sign Up - MusicFinds");
         model.addAttribute("header", "Create an account");
@@ -121,12 +115,11 @@ public class UserController {
     public String signupUser(@ModelAttribute @Valid User newUser,
                              Errors errors,
                              @RequestParam String passwordConfirm,
-                             @CookieValue("id") String userIdCookie,
-                             @CookieValue("password") String passwordCookie,
+                             @CookieValue(name = "id", required = false) String userIdCookie,
+                             @CookieValue(name = "password", required = false) String passwordCookie,
                              Model model) {
 
         if (errors.hasErrors()) {
-            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
@@ -137,7 +130,6 @@ public class UserController {
 
         // If the passwords do not match, create an error and return to the signup form.
         if (!passwordConfirm.equals(newUser.getPassword())) {
-            model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
             model.addAttribute("title", "Sign Up - MusicFinds");
             model.addAttribute("header", "Create an account");
@@ -151,7 +143,6 @@ public class UserController {
            database, create an error and return to the signup form.*/
         for (User existingUser : userDao.findAll()) {
             if (newUser.getUsername().equals(existingUser.getUsername())) {
-                model = setNavItemVisibility(model, userIdCookie, passwordCookie);
 
                 model.addAttribute("title", "Sign Up - MusicFinds");
                 model.addAttribute("header", "Create an account");
@@ -170,38 +161,32 @@ public class UserController {
     @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logOutUser(HttpServletRequest request, HttpServletResponse response) {
 
+        Cookie idCookie = getCookie(request, "id");
+        Cookie pwCookie = getCookie(request, "password");
+
         // Set the current cookie values to empty.
-
-        Cookie[] cookies = request.getCookies();
-
-        Cookie userIdCookie = new Cookie("id", "");
-        Cookie passwordCookie = new Cookie("password", "");
-
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("id")) {
-                response.addCookie(userIdCookie);
-            }
-            if (cookie.getName().equals("password")) {
-                response.addCookie(passwordCookie);
-            }
+        if (idCookie != null) {
+            idCookie.setValue("");
+            response.addCookie(idCookie);
+        }
+        if (pwCookie != null) {
+            pwCookie.setValue("");
+            response.addCookie(pwCookie);
         }
 
         return "redirect:/login?loggedOut=true";
     }
 
-    private Model setNavItemVisibility(Model model, String userIdCookie, String passwordCookie) {
-
-        // If the user is logged in, add their username to the model, and hide the Log In nav item.
-        if (!userIdCookie.isEmpty() && !passwordCookie.isEmpty()) {
-            int userId = Integer.parseInt(userIdCookie);
-            String username = userDao.findOne(userId).getUsername();
-            model.addAttribute("loggedInUser", username);
-            model.addAttribute("visibilityLogIn", "hidden");
-        } else { // If not, hide the username display and Log Out nav item.
-            model.addAttribute("visibilityUsernameDisplay", "hidden");
-            model.addAttribute("visibilityLogOut", "hidden");
+    private Cookie getCookie(HttpServletRequest request, String name) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(name)) {
+                    return cookie;
+                }
+            }
         }
 
-        return model;
+        return null;
     }
+
 }
