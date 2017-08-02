@@ -127,11 +127,6 @@ public class PostController {
 
         Post post = postDao.findOne(id);
 
-        // If the user is not logged in, hide the comment box.
-        if (userIdCookie.equals("") && passwordCookie.equals("")) {
-            model.addAttribute("visibilityComments", "hidden");
-        }
-
         model.addAttribute("title", "View Post - MusicFinds");
         model.addAttribute("post", post);
         model.addAttribute(new Comment());
@@ -164,20 +159,28 @@ public class PostController {
             return "posts/view-post";
         }
 
-        int userId = Integer.parseInt(userIdCookie);
-        User author = userDao.findOne(userId);
+        try {
+            if (userIdCookie.equals("") || passwordCookie.equals("")) {
+                return "redirect:/login?loginPromptComment=true";
+            }
 
-        comment.setAuthor(author);
-        post.addComment(comment);
+            int userId = Integer.parseInt(userIdCookie);
+            User author = userDao.findOne(userId);
 
-        postDao.save(post);
+            comment.setAuthor(author);
+            post.addComment(comment);
 
-        model.addAttribute("title", "View Post - MusicFinds");
-        model.addAttribute("post", post);
-        model.addAttribute(new Comment());
-        model.addAttribute("comments", post.getComments());
+            postDao.save(post);
 
-        model.addAttribute("findsActiveStatus", "active");
+            model.addAttribute("title", "View Post - MusicFinds");
+            model.addAttribute("post", post);
+            model.addAttribute(new Comment());
+            model.addAttribute("comments", post.getComments());
+
+            model.addAttribute("findsActiveStatus", "active");
+        } catch (NullPointerException ex) {
+            return "redirect:/login?loginPromptComment=true";
+        }
 
         return "posts/view-post";
     }
