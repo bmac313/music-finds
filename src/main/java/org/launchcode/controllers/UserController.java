@@ -24,6 +24,7 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String showLoginForm(@RequestParam(defaultValue = "false") boolean loggedOut,
                                 @RequestParam(defaultValue = "false") boolean loginPrompt,
+                                @RequestParam(defaultValue = "false") boolean loginPromptComment,
                                 @CookieValue(name = "id", required = false) String userIdCookie,
                                 @CookieValue(name = "password", required = false) String passwordCookie,
                                 Model model) {
@@ -37,6 +38,11 @@ public class UserController {
 
         if (loginPrompt) {
             model.addAttribute("loginPrompt", "You must log in to see this page.");
+            model.addAttribute("alertClass2", "alert alert-warning");
+        }
+
+        if (loginPromptComment) {
+            model.addAttribute("loginPrompt", "You must log in to post comments.");
             model.addAttribute("alertClass2", "alert alert-warning");
         }
 
